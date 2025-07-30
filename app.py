@@ -49,6 +49,8 @@ MAIN_TEMPLATE = '''
             text-decoration: none;
             letter-spacing: -0.5px;
             line-height: 1.2;
+            position: relative;
+            z-index: 1003;
         }
 
         /* RIGHT SIDE - Navigation + Phone + Icons */
@@ -56,16 +58,20 @@ MAIN_TEMPLATE = '''
             display: flex;
             align-items: center;
             gap: 40px;
+            position: relative;
+            z-index: 1003;
         }
 
         .nav {
             display: flex;
             gap: 30px;
             position: relative;
+            z-index: 1003;
         }
 
         .nav-item {
             position: relative;
+            z-index: 1003;
         }
 
         .nav a {
@@ -76,6 +82,8 @@ MAIN_TEMPLATE = '''
             transition: color 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1003;
         }
 
         .nav a:hover {
@@ -87,12 +95,16 @@ MAIN_TEMPLATE = '''
             align-items: center;
             color: #4a4a4a;
             font-weight: 500;
+            z-index: 1003;
+            position: relative;
         }
 
         .header-icons {
             display: flex;
             align-items: center;
             gap: 15px;
+            z-index: 1003;
+            position: relative;
         }
 
         .search-icon, .account-icon, .cart-icon {
@@ -237,7 +249,7 @@ MAIN_TEMPLATE = '''
         .contact-side-btn {
             position: fixed;
             right: 0;
-            top: 50vh;
+            top: calc(50vh + 35px);
             transform: translateY(-50%);
             background: #6b8e5a;
             color: white;
@@ -254,7 +266,7 @@ MAIN_TEMPLATE = '''
         }
 
         .contact-side-btn.mega-menu-active {
-            top: calc(50vh + 200px);
+            top: calc(50vh + 235px);
         }
 
         .contact-side-btn:hover {
@@ -375,7 +387,8 @@ MAIN_TEMPLATE = '''
             font-weight: 400;
             text-shadow: none;
             position: relative;
-            z-index: 1;
+            z-index: 1002;
+            padding: 10px 0;
         }
 
         .mega-card-arrow {
