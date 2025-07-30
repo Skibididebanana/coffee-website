@@ -32,7 +32,7 @@ MAIN_TEMPLATE = '''
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
+            z-index: 1001;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 15px 40px;
@@ -203,8 +203,8 @@ MAIN_TEMPLATE = '''
 
         /* MEGA MENU STYLES - INTEGRATED LAYOUT */
         .mega-menu {
-            position: fixed;
-            top: 70px;
+            position: absolute;
+            top: 100%;
             left: 0;
             width: 100vw;
             background: rgba(255, 255, 255, 0.98);
@@ -212,7 +212,7 @@ MAIN_TEMPLATE = '''
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease, opacity 0.3s ease;
+            transition: all 0.4s ease;
             padding: 0 40px;
             z-index: 999;
             opacity: 0;
@@ -221,18 +221,17 @@ MAIN_TEMPLATE = '''
         .nav-item:hover .mega-menu {
             max-height: 400px;
             opacity: 1;
-            padding: 80px 40px;
+            padding: 60px 40px;
         }
 
-        /* Push content down when mega menu is active */
-        .nav-item:hover ~ .main-container,
-        .nav-item:hover ~ .main-container .hero-section {
-            transform: translateY(320px);
-            transition: transform 0.4s ease;
+        /* Push hero section down when mega menu is active */
+        .hero-section.mega-menu-active {
+            margin-top: 390px;
         }
 
-        .main-container {
-            transition: transform 0.4s ease;
+        .hero-section {
+            transition: margin-top 0.4s ease;
+            margin-top: 70px;
         }
 
         .mega-menu-content {
@@ -953,6 +952,7 @@ MAIN_TEMPLATE = '''
         // Handle mega menu interactions
         document.addEventListener('DOMContentLoaded', function() {
             const navItems = document.querySelectorAll('.nav-item');
+            const heroSection = document.querySelector('.hero-section');
             
             navItems.forEach(item => {
                 const menu = item.querySelector('.mega-menu');
@@ -963,15 +963,25 @@ MAIN_TEMPLATE = '''
                     item.addEventListener('mouseenter', () => {
                         clearTimeout(hoverTimeout);
                         menu.style.opacity = '1';
-                        menu.style.visibility = 'visible';
-                        menu.style.pointerEvents = 'all';
+                        menu.style.maxHeight = '400px';
+                        menu.style.padding = '60px 40px';
+                        
+                        // Push hero section down
+                        if (heroSection) {
+                            heroSection.classList.add('mega-menu-active');
+                        }
                     });
                     
                     item.addEventListener('mouseleave', () => {
                         hoverTimeout = setTimeout(() => {
                             menu.style.opacity = '0';
-                            menu.style.visibility = 'hidden';
-                            menu.style.pointerEvents = 'none';
+                            menu.style.maxHeight = '0';
+                            menu.style.padding = '0 40px';
+                            
+                            // Reset hero section
+                            if (heroSection) {
+                                heroSection.classList.remove('mega-menu-active');
+                            }
                         }, 100);
                     });
                 }
