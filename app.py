@@ -3,14 +3,14 @@ import os
 
 app = Flask(__name__)
 
-# HTML template for the main page with updated header layout and fixed modal
+# HTML template for the main page
 MAIN_TEMPLATE = '''
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Office Coffee Co. - Professional Coffee Solutions</title>
+    <title>Office Coffee Co. - Website Preview</title>
     <style>
         * {
             margin: 0;
@@ -26,7 +26,7 @@ MAIN_TEMPLATE = '''
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* Header Navigation - HIGHEST Z-INDEX */
+        /* Header Navigation */
         .header {
             position: fixed;
             top: 0;
@@ -53,7 +53,6 @@ MAIN_TEMPLATE = '''
             z-index: 100000;
         }
 
-        /* RIGHT SIDE - Navigation + Phone + Icons */
         .header-right {
             display: flex;
             align-items: center;
@@ -121,7 +120,7 @@ MAIN_TEMPLATE = '''
         .contact-side-btn {
             position: fixed;
             right: 0;
-            top: 50%;
+            top: calc(50vh + 35px);
             transform: translateY(-50%);
             background: #6b8e5a;
             color: white;
@@ -133,8 +132,8 @@ MAIN_TEMPLATE = '''
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            z-index: 999;
-            transition: background 0.3s ease;
+            z-index: 1002;
+            transition: top 0.4s ease;
         }
 
         .contact-side-btn:hover {
@@ -152,6 +151,7 @@ MAIN_TEMPLATE = '''
             justify-content: center;
             position: relative;
             margin-top: 70px;
+            transition: margin-top 0.4s ease;
         }
 
         .hero-overlay {
@@ -213,7 +213,37 @@ MAIN_TEMPLATE = '''
             border-color: rgba(255, 255, 255, 1);
         }
 
-        /* MEGA MENU STYLES - INTEGRATED LAYOUT */
+        /* Trustpilot */
+        .trustpilot {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trustpilot-logo {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .stars {
+            display: flex;
+            gap: 3px;
+        }
+
+        .star {
+            width: 18px;
+            height: 18px;
+            background: #00b67a;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        /* Mega Menu Styles */
         .mega-menu {
             position: fixed;
             top: 70px;
@@ -236,103 +266,13 @@ MAIN_TEMPLATE = '''
             padding: 60px 0;
         }
 
-        /* Push hero section and contact button down when mega menu is active */
-        .hero-section {
-            transition: margin-top 0.4s ease;
-            margin-top: 70px;
+        .mega-menu-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
         }
 
-        .hero-section.mega-menu-active {
-            margin-top: 470px;
-        }
-
-        .contact-side-btn {
-            position: fixed;
-            right: 0;
-            top: calc(50vh + 35px);
-            transform: translateY(-50%);
-            background: #6b8e5a;
-            color: white;
-            padding: 60px 20px;
-            border: none;
-            cursor: pointer;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 1002;
-            transition: top 0.4s ease;
-        }
-
-        .contact-side-btn.mega-menu-active {
-            top: calc(50vh + 235px);
-        }
-
-        .contact-side-btn:hover {
-            background: #5a7a4a;
-        }
-
-        /* Ensure header elements stay above mega menu */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1001;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        /* Make logo and nav items stay above mega menu */
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2c1810;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-            position: relative;
-            z-index: 1002;
-        }
-
-        .nav {
-            display: flex;
-            gap: 30px;
-            position: relative;
-            z-index: 1002;
-        }
-
-        .contact-info {
-            display: flex;
-            align-items: center;
-            color: #4a4a4a;
-            font-weight: 500;
-            z-index: 1002;
-            position: relative;
-        }
-
-        .header-icons {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 1002;
-            position: relative;
-        }
-
-        /* Machines Mega Menu */
-        .machines-menu {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .machines-menu .mega-grid {
+        .mega-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 40px;
@@ -397,66 +337,6 @@ MAIN_TEMPLATE = '''
             margin-left: 8px;
         }
 
-        /* Shop Mega Menu */
-        .shop-menu {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .shop-menu .mega-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .coffee-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f4f1ed"/><circle cx="120" cy="80" r="25" fill="%236b4423"/><circle cx="200" cy="70" r="30" fill="%238b5a2b"/><circle cx="280" cy="85" r="20" fill="%236b4423"/><circle cx="160" cy="120" r="15" fill="%234a3426"/><circle cx="240" cy="110" r="18" fill="%235a3619"/><path d="M200 40 Q190 50 200 60 Q210 50 200 40" fill="%236b4423"/><path d="M200 45 Q195 52 200 58 Q205 52 200 45" fill="%238b5a2b"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Premium Coffee Beans</text></svg>');
-        }
-
-        .tea-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8f0"/><rect x="150" y="60" width="100" height="80" fill="%235a7a4a" rx="10"/><rect x="160" y="70" width="80" height="15" fill="%236b8e5a" rx="3"/><rect x="160" y="90" width="80" height="15" fill="%236b8e5a" rx="3"/><rect x="160" y="110" width="80" height="15" fill="%236b8e5a" rx="3"/><circle cx="100" cy="80" r="8" fill="%235a7a4a"/><circle cx="300" cy="90" r="10" fill="%235a7a4a"/><circle cx="120" cy="120" r="6" fill="%236b8e5a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Tea Collection</text></svg>');
-        }
-
-        .shop-all-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .shop-all-content .mega-card-title {
-            margin-bottom: 20px;
-            color: #2c1810;
-        }
-
-        .shop-menu-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 12px 0;
-            color: #6b5c47;
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            transition: color 0.3s ease;
-        }
-
-        .shop-menu-item:hover {
-            color: #2c1810;
-        }
-
-        .shop-menu-item:last-child {
-            border-bottom: none;
-        }
-
         /* Coffee Mega Menu - WHITE BACKGROUND */
         .coffee-menu {
             background: rgba(255, 255, 255, 0.98) !important;
@@ -491,237 +371,12 @@ MAIN_TEMPLATE = '''
             color: white !important;
         }
 
-        /* About Mega Menu */
-        .about-menu {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        .hero-section.mega-menu-active {
+            margin-top: 470px;
         }
 
-        .about-menu .mega-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .story-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f8f6f3"/><rect x="50" y="50" width="300" height="100" fill="%23ffffff" rx="10"/><rect x="70" y="70" width="80" height="60" fill="%236b4423" rx="5"/><rect x="170" y="75" width="60" height="50" fill="%238b5a2b" rx="5"/><rect x="250" y="70" width="80" height="60" fill="%236b4423" rx="5"/><circle cx="110" cy="40" r="8" fill="%236b4423"/><circle cx="200" cy="35" r="10" fill="%238b5a2b"/><circle cx="290" cy="40" r="8" fill="%236b4423"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Our Story</text></svg>');
-        }
-
-        .environment-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8f0"/><circle cx="150" cy="80" r="30" fill="%235a7a4a"/><circle cx="250" cy="90" r="25" fill="%236b8e5a"/><path d="M150 60 L140 80 L160 80 Z" fill="%234a6b4a"/><path d="M250 70 L240 90 L260 90 Z" fill="%235a7b5a"/><rect x="120" y="110" width="160" height="20" fill="%236b8e5a" rx="10"/><circle cx="100" cy="50" r="8" fill="%235a7a4a"/><circle cx="300" cy="60" r="10" fill="%236b8e5a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Sustainability</text></svg>');
-        }
-
-        .news-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f5f7fa"/><rect x="80" y="40" width="240" height="120" fill="%23ffffff" rx="8"/><rect x="100" y="60" width="200" height="15" fill="%234a6b7a" rx="3"/><rect x="100" y="85" width="150" height="10" fill="%235a7b8a" rx="2"/><rect x="100" y="105" width="180" height="10" fill="%235a7b8a" rx="2"/><rect x="100" y="125" width="120" height="10" fill="%235a7b8a" rx="2"/><circle cx="60" cy="80" r="15" fill="%234a6b7a"/><circle cx="340" cy="90" r="12" fill="%235a7b8a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Latest News</text></svg>');
-        }
-
-        /* Machines Mega Menu */
-        .machines-menu {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .machines-menu .mega-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .mega-card {
-            text-align: center;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            padding: 0;
-        }
-
-        .mega-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .mega-card-image {
-            width: 100%;
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .office-coffee-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f5f3f0"/><rect x="50" y="30" width="300" height="140" fill="%23ffffff" rx="10"/><rect x="70" y="50" width="60" height="80" fill="%232c1810" rx="5"/><rect x="150" y="60" width="40" height="60" fill="%236b4423" rx="20"/><rect x="210" y="55" width="80" height="70" fill="%23333" rx="10"/><rect x="310" y="45" width="30" height="90" fill="%236b4423" rx="15"/><circle cx="200" cy="40" r="15" fill="%236b4423"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Modern Office Setup</text></svg>');
-        }
-
-        .commercial-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23e8e4df"/><rect x="100" y="40" width="200" height="120" fill="%23333" rx="10"/><rect x="120" y="60" width="50" height="80" fill="%236b4423" rx="5"/><rect x="180" y="70" width="30" height="60" fill="%23ffffff" rx="15"/><rect x="220" y="65" width="60" height="70" fill="%234a6b7a" rx="8"/><circle cx="150" cy="30" r="10" fill="%236b4423"/><circle cx="200" cy="25" r="8" fill="%23333"/><circle cx="250" cy="30" r="12" fill="%235a7a4a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Commercial Solutions</text></svg>');
-        }
-
-        .filtered-water-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8ff"/><rect x="150" y="30" width="100" height="140" fill="%23333" rx="15"/><rect x="160" y="50" width="80" height="30" fill="%234a6b7a" rx="5"/><rect x="170" y="90" width="60" height="60" fill="%235a7b8a" rx="30"/><path d="M200 120 Q190 130 200 140 Q210 130 200 120" fill="%23ffffff"/><path d="M200 125 Q195 132 200 138 Q205 132 200 125" fill="%234a6b7a"/><text x="200" y="185" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Water Filtration</text></svg>');
-        }
-
-        .mega-card-title {
-            font-size: 1.5rem;
-            color: #2c1810;
-            margin-bottom: 10px;
-            font-weight: 400;
-            text-shadow: none;
-        }
-
-        .mega-card-arrow {
-            color: #6b4423;
-            font-size: 1.2rem;
-            margin-left: 8px;
-        }
-
-        /* Shop Mega Menu */
-        .shop-menu {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .shop-menu .mega-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .coffee-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f4f1ed"/><circle cx="120" cy="80" r="25" fill="%236b4423"/><circle cx="200" cy="70" r="30" fill="%238b5a2b"/><circle cx="280" cy="85" r="20" fill="%236b4423"/><circle cx="160" cy="120" r="15" fill="%234a3426"/><circle cx="240" cy="110" r="18" fill="%235a3619"/><path d="M200 40 Q190 50 200 60 Q210 50 200 40" fill="%236b4423"/><path d="M200 45 Q195 52 200 58 Q205 52 200 45" fill="%238b5a2b"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Premium Coffee Beans</text></svg>');
-        }
-
-        .tea-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8f0"/><rect x="150" y="60" width="100" height="80" fill="%235a7a4a" rx="10"/><rect x="160" y="70" width="80" height="15" fill="%236b8e5a" rx="3"/><rect x="160" y="90" width="80" height="15" fill="%236b8e5a" rx="3"/><rect x="160" y="110" width="80" height="15" fill="%236b8e5a" rx="3"/><circle cx="100" cy="80" r="8" fill="%235a7a4a"/><circle cx="300" cy="90" r="10" fill="%235a7a4a"/><circle cx="120" cy="120" r="6" fill="%236b8e5a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Tea Collection</text></svg>');
-        }
-
-        .shop-all-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 40px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .shop-all-content .mega-card-title {
-            margin-bottom: 20px;
-            color: #2c1810;
-        }
-
-        .shop-menu-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 12px 0;
-            color: #6b5c47;
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            transition: color 0.3s ease;
-        }
-
-        .shop-menu-item:hover {
-            color: #2c1810;
-        }
-
-        .shop-menu-item:last-child {
-            border-bottom: none;
-        }
-
-        /* Coffee Mega Menu */
-        .coffee-menu {
-            background: linear-gradient(135deg, rgba(44, 24, 16, 0.9) 0%, rgba(74, 52, 38, 0.8) 100%);
-        }
-
-        .coffee-menu .mega-menu-content {
-            text-align: center;
-        }
-
-        .coffee-menu .hero-title {
-            color: white;
-            margin-bottom: 20px;
-            font-size: 3.5rem;
-        }
-
-        .coffee-menu .hero-description {
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 30px;
-            font-size: 1.2rem;
-        }
-
-        .coffee-menu .hero-cta {
-            background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            color: white;
-        }
-
-        .coffee-menu .hero-cta:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* About Mega Menu */
-        .about-menu {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .about-menu .mega-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .story-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f8f6f3"/><rect x="50" y="50" width="300" height="100" fill="%23ffffff" rx="10"/><rect x="70" y="70" width="80" height="60" fill="%236b4423" rx="5"/><rect x="170" y="75" width="60" height="50" fill="%238b5a2b" rx="5"/><rect x="250" y="70" width="80" height="60" fill="%236b4423" rx="5"/><circle cx="110" cy="40" r="8" fill="%236b4423"/><circle cx="200" cy="35" r="10" fill="%238b5a2b"/><circle cx="290" cy="40" r="8" fill="%236b4423"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Our Story</text></svg>');
-        }
-
-        .environment-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8f0"/><circle cx="150" cy="80" r="30" fill="%235a7a4a"/><circle cx="250" cy="90" r="25" fill="%236b8e5a"/><path d="M150 60 L140 80 L160 80 Z" fill="%234a6b4a"/><path d="M250 70 L240 90 L260 90 Z" fill="%235a7b5a"/><rect x="120" y="110" width="160" height="20" fill="%236b8e5a" rx="10"/><circle cx="100" cy="50" r="8" fill="%235a7a4a"/><circle cx="300" cy="60" r="10" fill="%236b8e5a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Sustainability</text></svg>');
-        }
-
-        .news-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f5f7fa"/><rect x="80" y="40" width="240" height="120" fill="%23ffffff" rx="8"/><rect x="100" y="60" width="200" height="15" fill="%234a6b7a" rx="3"/><rect x="100" y="85" width="150" height="10" fill="%235a7b8a" rx="2"/><rect x="100" y="105" width="180" height="10" fill="%235a7b8a" rx="2"/><rect x="100" y="125" width="120" height="10" fill="%235a7b8a" rx="2"/><circle cx="60" cy="80" r="15" fill="%234a6b7a"/><circle cx="340" cy="90" r="12" fill="%235a7b8a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Latest News</text></svg>');
-        }
-
-        /* Trustpilot */
-        .trustpilot {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .trustpilot-logo {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        .stars {
-            display: flex;
-            gap: 3px;
-        }
-
-        .star {
-            width: 18px;
-            height: 18px;
-            background: #00b67a;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        .contact-side-btn.mega-menu-active {
+            top: calc(50vh + 235px);
         }
 
         /* Services Section */
@@ -843,137 +498,22 @@ MAIN_TEMPLATE = '''
             font-size: 1.3rem;
         }
 
-        /* MOBILE RESPONSIVE */
+        /* Mobile responsive */
         @media (max-width: 768px) {
             .header {
                 padding: 15px 20px;
                 flex-direction: column;
                 gap: 20px;
-                background: white;
-                position: relative;
             }
-
-            .header-right {
-                flex-direction: column;
-                gap: 20px;
-                width: 100%;
-            }
-
-            .nav {
-                flex-direction: column;
-                gap: 0;
-                width: 100%;
-                order: 2;
-            }
-
-            .nav a {
-                display: block;
-                padding: 15px 20px;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-                background: white;
-                color: #4a4a4a;
-            }
-
-            .contact-info {
-                order: 1;
-            }
-
-            .header-icons {
-                order: 3;
-            }
-
-            .mega-menu {
-                position: static;
-                width: 100%;
-                background: #f8f6f3;
-                padding: 0;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-            }
-
-            .nav-item:hover .mega-menu {
-                max-height: 500px;
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .mega-menu-content {
-                padding: 20px;
-            }
-
-            .mega-grid {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-            }
-
-            .mega-card-image {
-                height: 120px;
-            }
-
-            .mega-card-title {
-                color: #2c1810 !important;
-                text-shadow: none;
-                font-size: 1.2rem;
-            }
-
-            .shop-all-content {
-                background: white;
-                border: 1px solid #e0e0e0;
-            }
-
-            .shop-menu-item {
-                color: #4a4a4a !important;
-                border-bottom: 1px solid #e0e0e0;
-            }
-
-            .coffee-menu {
-                background: #2c1810;
-                color: white;
-            }
-
-            .coffee-menu .mega-menu-content {
-                padding: 30px 20px;
-            }
-
-            .coffee-menu .hero-title {
-                font-size: 2rem;
-            }
-
-            .coffee-menu .hero-description {
-                font-size: 1rem;
-            }
-
-            .hero-section {
-                margin-top: 0;
-            }
-
+            
             .hero-title {
                 font-size: 3rem;
             }
-
-            .services-title {
-                font-size: 2.5rem;
-            }
-
-            .card-title {
-                font-size: 2rem;
-            }
-
+            
             .services-grid {
                 grid-template-columns: 1fr;
-                gap: 30px;
             }
-
-            .service-card {
-                height: 300px;
-                padding: 40px;
-            }
-
-            .services-section {
-                padding: 60px 20px;
-            }
-
+            
             .contact-side-btn {
                 display: none;
             }
@@ -982,24 +522,24 @@ MAIN_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
+        <a href="{{ url_for('home') }}" class="logo">Office<br>Coffee<br>Co.</a>
         
         <div class="header-right">
             <nav class="nav">
                 <div class="nav-item">
-                    <a href="/machines">Machines</a>
+                    <a href="{{ url_for('machines') }}">Machines</a>
                     <div class="mega-menu machines-menu">
                         <div class="mega-menu-content">
                             <div class="mega-grid">
-                                <div class="mega-card" onclick="location.href='/machines'">
+                                <div class="mega-card" onclick="location.href='{{ url_for('machines') }}'">
                                     <div class="mega-card-image office-coffee-img"></div>
                                     <h3 class="mega-card-title">Office Coffee <span class="mega-card-arrow">→</span></h3>
                                 </div>
-                                <div class="mega-card" onclick="location.href='/machines'">
+                                <div class="mega-card" onclick="location.href='{{ url_for('machines') }}'">
                                     <div class="mega-card-image commercial-img"></div>
                                     <h3 class="mega-card-title">Commercial <span class="mega-card-arrow">→</span></h3>
                                 </div>
-                                <div class="mega-card" onclick="location.href='/machines'">
+                                <div class="mega-card" onclick="location.href='{{ url_for('machines') }}'">
                                     <div class="mega-card-image filtered-water-img"></div>
                                     <h3 class="mega-card-title">Filtered Water <span class="mega-card-arrow">→</span></h3>
                                 </div>
@@ -1009,37 +549,32 @@ MAIN_TEMPLATE = '''
                 </div>
                 
                 <div class="nav-item">
-                    <a href="/shop">Shop</a>
+                    <a href="{{ url_for('shop') }}">Shop</a>
                     <div class="mega-menu shop-menu">
                         <div class="mega-menu-content">
                             <div class="mega-grid">
-                                <div class="mega-card" onclick="location.href='/coffee'">
-                                    <div class="mega-card-image coffee-img"></div>
+                                <div class="mega-card" onclick="location.href='{{ url_for('coffee') }}'">
+                                    <div class="mega-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect width=&quot;400&quot; height=&quot;200&quot; fill=&quot;%23f4f1ed&quot;/><circle cx=&quot;120&quot; cy=&quot;80&quot; r=&quot;25&quot; fill=&quot;%236b4423&quot;/><circle cx=&quot;200&quot; cy=&quot;70&quot; r=&quot;30&quot; fill=&quot;%238b5a2b&quot;/><circle cx=&quot;280&quot; cy=&quot;85&quot; r=&quot;20&quot; fill=&quot;%236b4423&quot;/><circle cx=&quot;160&quot; cy=&quot;120&quot; r=&quot;15&quot; fill=&quot;%234a3426&quot;/><circle cx=&quot;240&quot; cy=&quot;110&quot; r=&quot;18&quot; fill=&quot;%235a3619&quot;/><path d=&quot;M200 40 Q190 50 200 60 Q210 50 200 40&quot; fill=&quot;%236b4423&quot;/><path d=&quot;M200 45 Q195 52 200 58 Q205 52 200 45&quot; fill=&quot;%238b5a2b&quot;/><text x=&quot;200&quot; y=&quot;180&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial&quot; font-size=&quot;14&quot; fill=&quot;%232c1810&quot;>Premium Coffee Beans</text></svg>'); background-size: cover; background-position: center;"></div>
                                     <h3 class="mega-card-title">Coffee <span class="mega-card-arrow">→</span></h3>
                                 </div>
-                                <div class="mega-card" onclick="location.href='/shop'">
-                                    <div class="mega-card-image tea-img"></div>
+                                <div class="mega-card" onclick="location.href='{{ url_for('shop') }}'">
+                                    <div class="mega-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect width=&quot;400&quot; height=&quot;200&quot; fill=&quot;%23f0f8f0&quot;/><rect x=&quot;150&quot; y=&quot;60&quot; width=&quot;100&quot; height=&quot;80&quot; fill=&quot;%235a7a4a&quot; rx=&quot;10&quot;/><rect x=&quot;160&quot; y=&quot;70&quot; width=&quot;80&quot; height=&quot;15&quot; fill=&quot;%236b8e5a&quot; rx=&quot;3&quot;/><rect x=&quot;160&quot; y=&quot;90&quot; width=&quot;80&quot; height=&quot;15&quot; fill=&quot;%236b8e5a&quot; rx=&quot;3&quot;/><rect x=&quot;160&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;15&quot; fill=&quot;%236b8e5a&quot; rx=&quot;3&quot;/><circle cx=&quot;100&quot; cy=&quot;80&quot; r=&quot;8&quot; fill=&quot;%235a7a4a&quot;/><circle cx=&quot;300&quot; cy=&quot;90&quot; r=&quot;10&quot; fill=&quot;%235a7a4a&quot;/><circle cx=&quot;120&quot; cy=&quot;120&quot; r=&quot;6&quot; fill=&quot;%236b8e5a&quot;/><text x=&quot;200&quot; y=&quot;180&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial&quot; font-size=&quot;14&quot; fill=&quot;%232c1810&quot;>Tea Collection</text></svg>'); background-size: cover; background-position: center;"></div>
                                     <h3 class="mega-card-title">Tea <span class="mega-card-arrow">→</span></h3>
                                 </div>
                                 <div class="mega-card">
-                                    <div class="shop-all-content">
-                                        <h3 class="mega-card-title" style="margin-bottom: 20px; color: white;">Shop All</h3>
-                                        <a href="/shop" class="shop-menu-item">
-                                            <span>SUNDRIES</span>
-                                            <span>→</span>
-                                        </a>
-                                        <a href="/shop" class="shop-menu-item">
-                                            <span>DISPOSABLES</span>
-                                            <span>→</span>
-                                        </a>
-                                        <a href="/shop" class="shop-menu-item">
-                                            <span>EQUIPMENT</span>
-                                            <span>→</span>
-                                        </a>
-                                        <a href="/shop" class="shop-menu-item">
-                                            <span>SALE</span>
-                                            <span>→</span>
-                                        </a>
+                                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 40px; height: 250px; background: rgba(255, 255, 255, 0.9); border-radius: 8px;">
+                                        <h3 class="mega-card-title">Shop All</h3>
+                                        <div style="width: 100%;">
+                                            <a href="{{ url_for('shop') }}" style="display: flex; justify-content: space-between; padding: 12px 0; color: #6b5c47; text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                                <span>SUNDRIES</span><span>→</span>
+                                            </a>
+                                            <a href="{{ url_for('shop') }}" style="display: flex; justify-content: space-between; padding: 12px 0; color: #6b5c47; text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                                                <span>DISPOSABLES</span><span>→</span>
+                                            </a>
+                                            <a href="{{ url_for('shop') }}" style="display: flex; justify-content: space-between; padding: 12px 0; color: #6b5c47; text-decoration: none;">
+                                                <span>EQUIPMENT</span><span>→</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1048,33 +583,33 @@ MAIN_TEMPLATE = '''
                 </div>
                 
                 <div class="nav-item">
-                    <a href="/coffee">Coffee</a>
+                    <a href="{{ url_for('coffee') }}">Coffee</a>
                     <div class="mega-menu coffee-menu">
                         <div class="mega-menu-content">
                             <h1 class="hero-title">Organise a coffee tasting for your colleagues</h1>
                             <p class="hero-description">
                                 Host an obligation free coffee morning to sample our delicious blends and reliable machines
                             </p>
-                            <a href="/machines" class="hero-cta">Coffee Machines</a>
+                            <a href="{{ url_for('machines') }}" class="hero-cta">Coffee Machines</a>
                         </div>
                     </div>
                 </div>
                 
                 <div class="nav-item">
-                    <a href="/about">About</a>
+                    <a href="{{ url_for('about') }}">About</a>
                     <div class="mega-menu about-menu">
                         <div class="mega-menu-content">
                             <div class="mega-grid">
-                                <div class="mega-card" onclick="location.href='/about'">
-                                    <div class="mega-card-image story-img"></div>
+                                <div class="mega-card" onclick="location.href='{{ url_for('about') }}'">
+                                    <div class="mega-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect width=&quot;400&quot; height=&quot;200&quot; fill=&quot;%23f8f6f3&quot;/><rect x=&quot;50&quot; y=&quot;50&quot; width=&quot;300&quot; height=&quot;100&quot; fill=&quot;%23ffffff&quot; rx=&quot;10&quot;/><rect x=&quot;70&quot; y=&quot;70&quot; width=&quot;80&quot; height=&quot;60&quot; fill=&quot;%236b4423&quot; rx=&quot;5&quot;/><rect x=&quot;170&quot; y=&quot;75&quot; width=&quot;60&quot; height=&quot;50&quot; fill=&quot;%238b5a2b&quot; rx=&quot;5&quot;/><rect x=&quot;250&quot; y=&quot;70&quot; width=&quot;80&quot; height=&quot;60&quot; fill=&quot;%236b4423&quot; rx=&quot;5&quot;/><circle cx=&quot;110&quot; cy=&quot;40&quot; r=&quot;8&quot; fill=&quot;%236b4423&quot;/><circle cx=&quot;200&quot; cy=&quot;35&quot; r=&quot;10&quot; fill=&quot;%238b5a2b&quot;/><circle cx=&quot;290&quot; cy=&quot;40&quot; r=&quot;8&quot; fill=&quot;%236b4423&quot;/><text x=&quot;200&quot; y=&quot;180&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial&quot; font-size=&quot;14&quot; fill=&quot;%232c1810&quot;>Our Story</text></svg>'); background-size: cover; background-position: center;"></div>
                                     <h3 class="mega-card-title">Our Story <span class="mega-card-arrow">→</span></h3>
                                 </div>
-                                <div class="mega-card" onclick="location.href='/about'">
-                                    <div class="mega-card-image environment-img"></div>
+                                <div class="mega-card" onclick="location.href='{{ url_for('about') }}'">
+                                    <div class="mega-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect width=&quot;400&quot; height=&quot;200&quot; fill=&quot;%23f0f8f0&quot;/><circle cx=&quot;150&quot; cy=&quot;80&quot; r=&quot;30&quot; fill=&quot;%235a7a4a&quot;/><circle cx=&quot;250&quot; cy=&quot;90&quot; r=&quot;25&quot; fill=&quot;%236b8e5a&quot;/><path d=&quot;M150 60 L140 80 L160 80 Z&quot; fill=&quot;%234a6b4a&quot;/><path d=&quot;M250 70 L240 90 L260 90 Z&quot; fill=&quot;%235a7b5a&quot;/><rect x=&quot;120&quot; y=&quot;110&quot; width=&quot;160&quot; height=&quot;20&quot; fill=&quot;%236b8e5a&quot; rx=&quot;10&quot;/><circle cx=&quot;100&quot; cy=&quot;50&quot; r=&quot;8&quot; fill=&quot;%235a7a4a&quot;/><circle cx=&quot;300&quot; cy=&quot;60&quot; r=&quot;10&quot; fill=&quot;%236b8e5a&quot;/><text x=&quot;200&quot; y=&quot;180&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial&quot; font-size=&quot;14&quot; fill=&quot;%232c1810&quot;>Sustainability</text></svg>'); background-size: cover; background-position: center;"></div>
                                     <h3 class="mega-card-title">Environment <span class="mega-card-arrow">→</span></h3>
                                 </div>
-                                <div class="mega-card" onclick="location.href='/about'">
-                                    <div class="mega-card-image news-img"></div>
+                                <div class="mega-card" onclick="location.href='{{ url_for('about') }}'">
+                                    <div class="mega-card-image" style="background-image: url('data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 400 200&quot;><rect width=&quot;400&quot; height=&quot;200&quot; fill=&quot;%23f5f7fa&quot;/><rect x=&quot;80&quot; y=&quot;40&quot; width=&quot;240&quot; height=&quot;120&quot; fill=&quot;%23ffffff&quot; rx=&quot;8&quot;/><rect x=&quot;100&quot; y=&quot;60&quot; width=&quot;200&quot; height=&quot;15&quot; fill=&quot;%234a6b7a&quot; rx=&quot;3&quot;/><rect x=&quot;100&quot; y=&quot;85&quot; width=&quot;150&quot; height=&quot;10&quot; fill=&quot;%235a7b8a&quot; rx=&quot;2&quot;/><rect x=&quot;100&quot; y=&quot;105&quot; width=&quot;180&quot; height=&quot;10&quot; fill=&quot;%235a7b8a&quot; rx=&quot;2&quot;/><rect x=&quot;100&quot; y=&quot;125&quot; width=&quot;120&quot; height=&quot;10&quot; fill=&quot;%235a7b8a&quot; rx=&quot;2&quot;/><circle cx=&quot;60&quot; cy=&quot;80&quot; r=&quot;15&quot; fill=&quot;%234a6b7a&quot;/><circle cx=&quot;340&quot; cy=&quot;90&quot; r=&quot;12&quot; fill=&quot;%235a7b8a&quot;/><text x=&quot;200&quot; y=&quot;180&quot; text-anchor=&quot;middle&quot; font-family=&quot;Arial&quot; font-size=&quot;14&quot; fill=&quot;%232c1810&quot;>Latest News</text></svg>'); background-size: cover; background-position: center;"></div>
                                     <h3 class="mega-card-title">News <span class="mega-card-arrow">→</span></h3>
                                 </div>
                             </div>
@@ -1107,7 +642,7 @@ MAIN_TEMPLATE = '''
                     At the Office Coffee Company, we specialise in barista-quality machines and ethically 
                     sourced beans, for your workplace.
                 </p>
-                <a href="/machines" class="hero-cta">Coffee Machines</a>
+                <a href="{{ url_for('machines') }}" class="hero-cta">Coffee Machines</a>
             </div>
             
             <div class="trustpilot">
@@ -1131,24 +666,24 @@ MAIN_TEMPLATE = '''
                 </div>
 
                 <div class="services-grid">
-                    <div class="service-card coffee-card" onclick="location.href='/coffee'">
+                    <div class="service-card coffee-card" onclick="location.href='{{ url_for('coffee') }}'">
                         <div class="card-content">
                             <h3 class="card-title">Our Coffee</h3>
-                            <a href="/coffee" class="card-cta">Discover blends</a>
+                            <a href="{{ url_for('coffee') }}" class="card-cta">Discover blends</a>
                         </div>
                     </div>
 
-                    <div class="service-card machines-card" onclick="location.href='/machines'">
+                    <div class="service-card machines-card" onclick="location.href='{{ url_for('machines') }}'">
                         <div class="card-content">
                             <h3 class="card-title">Our Machines</h3>
-                            <a href="/machines" class="card-cta">Find equipment</a>
+                            <a href="{{ url_for('machines') }}" class="card-cta">Find equipment</a>
                         </div>
                     </div>
 
-                    <div class="service-card shop-card" onclick="location.href='/shop'">
+                    <div class="service-card shop-card" onclick="location.href='{{ url_for('shop') }}'">
                         <div class="card-content">
                             <h3 class="card-title">Coffee Shop</h3>
-                            <a href="/shop" class="card-cta">Buy supplies</a>
+                            <a href="{{ url_for('shop') }}" class="card-cta">Buy supplies</a>
                         </div>
                     </div>
                 </div>
@@ -1157,7 +692,101 @@ MAIN_TEMPLATE = '''
     </div>
 
     <script>
-        // FIXED CONTACT FORM FUNCTION
+        // Handle mega menu interactions with 1.5 second grace period
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const heroSection = document.querySelector('.hero-section');
+            const contactBtn = document.querySelector('.contact-side-btn');
+            let isHoveringAnyNav = false;
+            let graceTimer = null;
+            let currentActiveMenu = null;
+            
+            function showHeroAndContact() {
+                if (heroSection) {
+                    heroSection.classList.add('mega-menu-active');
+                }
+                if (contactBtn) {
+                    contactBtn.classList.add('mega-menu-active');
+                }
+            }
+            
+            function hideHeroAndContact() {
+                if (heroSection) {
+                    heroSection.classList.remove('mega-menu-active');
+                }
+                if (contactBtn) {
+                    contactBtn.classList.remove('mega-menu-active');
+                }
+            }
+            
+            function hideAllMenus() {
+                navItems.forEach(item => {
+                    const menu = item.querySelector('.mega-menu');
+                    if (menu) {
+                        menu.style.opacity = '0';
+                        menu.style.maxHeight = '0';
+                        menu.style.padding = '0';
+                    }
+                });
+                currentActiveMenu = null;
+            }
+            
+            function startGracePeriod() {
+                if (graceTimer) {
+                    clearTimeout(graceTimer);
+                }
+                graceTimer = setTimeout(() => {
+                    if (!isHoveringAnyNav) {
+                        hideHeroAndContact();
+                        hideAllMenus();
+                    }
+                }, 1500); // 1.5 SECOND GRACE PERIOD
+            }
+            
+            navItems.forEach(item => {
+                const menu = item.querySelector('.mega-menu');
+                
+                if (menu) {
+                    item.addEventListener('mouseenter', () => {
+                        isHoveringAnyNav = true;
+                        
+                        // Clear grace timer since user is hovering
+                        if (graceTimer) {
+                            clearTimeout(graceTimer);
+                            graceTimer = null;
+                        }
+                        
+                        // Show hero and contact immediately
+                        showHeroAndContact();
+                        
+                        // Hide other menus and show current
+                        navItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                const otherMenu = otherItem.querySelector('.mega-menu');
+                                if (otherMenu) {
+                                    otherMenu.style.opacity = '0';
+                                    otherMenu.style.maxHeight = '0';
+                                    otherMenu.style.padding = '0';
+                                }
+                            }
+                        });
+                        
+                        // Show current menu
+                        menu.style.opacity = '1';
+                        menu.style.maxHeight = '400px';
+                        menu.style.padding = '60px 0';
+                        currentActiveMenu = menu;
+                    });
+                    
+                    item.addEventListener('mouseleave', () => {
+                        isHoveringAnyNav = false;
+                        // Start 1.5 second grace period
+                        startGracePeriod();
+                    });
+                }
+            });
+        });
+
         function showContactForm() {
             // Remove any existing modals first
             const existingModal = document.querySelector('.contact-modal');
@@ -1196,7 +825,6 @@ MAIN_TEMPLATE = '''
                 </div>
             `;
             
-            // Add click outside to close
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     closeModal();
@@ -1218,55 +846,6 @@ MAIN_TEMPLATE = '''
             alert('Thank you! We will contact you within 24 hours with your personalized quote.');
             closeModal();
         }
-
-        // Smooth scroll to services
-        function scrollToServices() {
-            document.getElementById('servicesSection').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        // Handle mega menu interactions
-        document.addEventListener('DOMContentLoaded', function() {
-            const navItems = document.querySelectorAll('.nav-item');
-            const heroSection = document.querySelector('.hero-section');
-            
-            navItems.forEach(item => {
-                const menu = item.querySelector('.mega-menu');
-                
-                if (menu) {
-                    let hoverTimeout;
-                    
-                    item.addEventListener('mouseenter', () => {
-                        clearTimeout(hoverTimeout);
-                        
-                        // Show mega menu
-                        menu.style.opacity = '1';
-                        menu.style.maxHeight = '400px';
-                        menu.style.padding = '60px 0';
-                        
-                        // Push hero section down
-                        if (heroSection) {
-                            heroSection.classList.add('mega-menu-active');
-                        }
-                    });
-                    
-                    item.addEventListener('mouseleave', () => {
-                        hoverTimeout = setTimeout(() => {
-                            // Hide mega menu
-                            menu.style.opacity = '0';
-                            menu.style.maxHeight = '0';
-                            menu.style.padding = '0';
-                            
-                            // Reset hero section
-                            if (heroSection) {
-                                heroSection.classList.remove('mega-menu-active');
-                            }
-                        }, 100);
-                    });
-                }
-            });
-        });
     </script>
 </body>
 </html>
@@ -1407,7 +986,7 @@ COFFEE_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
+        <a href="{{ url_for('home') }}" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -1455,7 +1034,7 @@ COFFEE_PAGE_TEMPLATE = '''
         </div>
         
         <div style="text-align: center;">
-            <a href="/" class="back-link">← Back to Home</a>
+            <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
         </div>
     </div>
 </body>
@@ -1612,7 +1191,7 @@ MACHINES_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
+        <a href="{{ url_for('home') }}" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -1626,36 +1205,6 @@ MACHINES_PAGE_TEMPLATE = '''
                 <div class="machine-image">⚙️</div>
                 <div class="machine-content">
                     <h3 class="machine-title">Office Pro 2000</h3>
-                    <p class="machine-description">Perfect for small to medium offices. Makes up to 200 cups per day with consistent quality.</p>
-                    <ul class="machine-features">
-                        <li>Bean-to-cup technology</li>
-                        <li>Touch screen interface</li>
-                        <li>Self-cleaning function</li>
-                        <li>Energy efficient</li>
-                    </ul>
-                    <div class="machine-price">From £45/month</div>
-                </div>
-            </div>
-            
-            <div class="machine-card">
-                <div class="machine-image">🏢</div>
-                <div class="machine-content">
-                    <h3 class="machine-title">Corporate Elite</h3>
-                    <p class="machine-description">Heavy-duty machine for large offices. Handles 500+ cups daily with multiple drink options.</p>
-                    <ul class="machine-features">
-                        <li>Multiple coffee varieties</li>
-                        <li>Hot chocolate & tea options</li>
-                        <li>Advanced grinder system</li>
-                        <li>Remote monitoring</li>
-                    </ul>
-                    <div class="machine-price">From £89/month</div>
-                </div>
-            </div>
-            
-            <div class="machine-card">
-                <div class="machine-image">☕</div>
-                <div class="machine-content">
-                    <h3 class="machine-title">Compact Express</h3>
                     <p class="machine-description">Space-saving solution for smaller teams. Great coffee quality in a compact design.</p>
                     <ul class="machine-features">
                         <li>Small footprint</li>
@@ -1684,7 +1233,7 @@ MACHINES_PAGE_TEMPLATE = '''
         </div>
         
         <div style="text-align: center;">
-            <a href="/" class="back-link">← Back to Home</a>
+            <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
         </div>
     </div>
 </body>
@@ -1838,7 +1387,7 @@ SHOP_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
+        <a href="{{ url_for('home') }}" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -1895,7 +1444,7 @@ SHOP_PAGE_TEMPLATE = '''
         </div>
         
         <div style="text-align: center;">
-            <a href="/" class="back-link">← Back to Home</a>
+            <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
         </div>
     </div>
 </body>
@@ -2033,7 +1582,7 @@ ABOUT_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
+        <a href="{{ url_for('home') }}" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -2074,14 +1623,14 @@ ABOUT_PAGE_TEMPLATE = '''
         </div>
         
         <div style="text-align: center;">
-            <a href="/" class="back-link">← Back to Home</a>
+            <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
         </div>
     </div>
 </body>
 </html>
 '''
 
-
+# Flask routes
 @app.route('/')
 def home():
     return render_template_string(MAIN_TEMPLATE)
@@ -2104,4 +1653,34 @@ def about():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host='0.0.0.0', port=port, debug=True)-description">Perfect for small to medium offices. Makes up to 200 cups per day with consistent quality.</p>
+                    <ul class="machine-features">
+                        <li>Bean-to-cup technology</li>
+                        <li>Touch screen interface</li>
+                        <li>Self-cleaning function</li>
+                        <li>Energy efficient</li>
+                    </ul>
+                    <div class="machine-price">From £45/month</div>
+                </div>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-image">🏢</div>
+                <div class="machine-content">
+                    <h3 class="machine-title">Corporate Elite</h3>
+                    <p class="machine-description">Heavy-duty machine for large offices. Handles 500+ cups daily with multiple drink options.</p>
+                    <ul class="machine-features">
+                        <li>Multiple coffee varieties</li>
+                        <li>Hot chocolate & tea options</li>
+                        <li>Advanced grinder system</li>
+                        <li>Remote monitoring</li>
+                    </ul>
+                    <div class="machine-price">From £89/month</div>
+                </div>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-image">☕</div>
+                <div class="machine-content">
+                    <h3 class="machine-title">Compact Express</h3>
+                    <p class="machine
