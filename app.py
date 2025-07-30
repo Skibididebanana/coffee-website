@@ -1,8 +1,9 @@
 from flask import Flask, render_template_string
+import os
 
 app = Flask(__name__)
 
-# HTML template for the main page with horizontal carousel + scroll section
+# HTML template for the main page with new hero section and mega menus
 MAIN_TEMPLATE = '''
 <!DOCTYPE html>
 <html lang="en">
@@ -47,11 +48,17 @@ MAIN_TEMPLATE = '''
             color: #2c1810;
             text-decoration: none;
             letter-spacing: -0.5px;
+            line-height: 1.2;
         }
 
         .nav {
             display: flex;
             gap: 30px;
+            position: relative;
+        }
+
+        .nav-item {
+            position: relative;
         }
 
         .nav a {
@@ -60,10 +67,18 @@ MAIN_TEMPLATE = '''
             font-weight: 500;
             font-size: 0.95rem;
             transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .nav a:hover {
             color: #6b4423;
+        }
+
+        .nav-item.active a {
+            color: #6b8e5a;
+            border-bottom: 2px solid #6b8e5a;
+            padding-bottom: 2px;
         }
 
         .contact-info {
@@ -89,194 +104,276 @@ MAIN_TEMPLATE = '''
             background: #5a3619;
         }
 
-        /* Main Container */
-        .main-container {
-            margin-top: 70px;
+        .contact-side-btn {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #6b8e5a;
+            color: white;
+            padding: 60px 20px;
+            border: none;
+            cursor: pointer;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 999;
+            transition: background 0.3s ease;
         }
 
-        /* Carousel Container (First Section) */
-        .carousel-container {
-            position: relative;
-            width: 100%;
+        .contact-side-btn:hover {
+            background: #5a7a4a;
+        }
+
+        /* Hero Section */
+        .hero-section {
             height: 100vh;
-            overflow: hidden;
-        }
-
-        .carousel-wrapper {
-            display: flex;
-            width: 200%;
-            height: 100%;
-            transition: transform 0.8s ease-in-out;
-        }
-
-        .carousel-slide {
-            width: 50%;
-            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%23f0f0f0"/><circle cx="300" cy="400" r="60" fill="%23ffffff" opacity="0.8"/><circle cx="900" cy="300" r="40" fill="%23ffffff" opacity="0.6"/><rect x="250" y="350" width="100" height="100" rx="50" fill="%23f5f5f5"/><rect x="850" y="250" width="100" height="100" rx="50" fill="%23f5f5f5"/></svg>');
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
+            margin-top: 70px;
         }
 
-        /* Coffee Tasting Slide (First) */
-        .tasting-slide {
-            background: linear-gradient(135deg, #2c1810 0%, #4a3426 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .tasting-bg {
+        .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: 
-                radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            background: rgba(0, 0, 0, 0.4);
         }
 
-        .slide-content {
+        .hero-content {
             position: relative;
             z-index: 10;
+            text-align: center;
+            color: white;
             max-width: 800px;
             padding: 0 40px;
         }
 
-        .slide-title {
-            font-size: 4rem;
+        .hero-title {
+            font-size: 4.5rem;
             font-weight: 300;
             margin-bottom: 30px;
-            line-height: 1.2;
+            line-height: 1.1;
             letter-spacing: -1px;
         }
 
-        .slide-description {
-            font-size: 1.3rem;
+        .hero-description {
+            font-size: 1.4rem;
             margin-bottom: 40px;
-            opacity: 0.9;
+            opacity: 0.95;
             line-height: 1.6;
             font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .cta-button {
+        .hero-cta {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 15px 35px;
+            padding: 18px 40px;
             background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.8);
             color: white;
             text-decoration: none;
             font-weight: 500;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
             border-radius: 5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
 
-        .cta-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
+        .hero-cta:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 1);
         }
 
-        /* About Slide (Second) */
-        .about-slide {
-            background: linear-gradient(135deg, #4a3426 0%, #6b4423 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .about-bg {
+        /* Mega Menu Styles */
+        .mega-menu {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            margin: 40px 0;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 600;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        /* Navigation dots for carousel */
-        .carousel-dots {
-            position: absolute;
-            bottom: 30px;
+            top: 100%;
             left: 50%;
             transform: translateX(-50%);
+            width: 100vw;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 60px 40px;
+            z-index: 999;
+        }
+
+        .nav-item:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mega-menu-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Machines Mega Menu */
+        .machines-menu .mega-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .mega-card {
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mega-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mega-card-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .office-coffee-img {
+            background: linear-gradient(45deg, #8b7355 0%, #a68b5b 100%);
+        }
+
+        .commercial-img {
+            background: linear-gradient(45deg, #5a7a4a 0%, #6b8e5a 100%);
+        }
+
+        .filtered-water-img {
+            background: linear-gradient(45deg, #4a6b7a 0%, #5a7b8a 100%);
+        }
+
+        .mega-card-title {
+            font-size: 1.5rem;
+            color: #2c1810;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .mega-card-arrow {
+            color: #6b8e5a;
+            font-size: 1.2rem;
+            margin-left: 8px;
+        }
+
+        /* Shop Mega Menu */
+        .shop-menu .mega-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .coffee-img {
+            background: linear-gradient(45deg, #6b4423 0%, #8b5a2b 100%);
+        }
+
+        .tea-img {
+            background: linear-gradient(45deg, #5a7a4a 0%, #6b8e5a 100%);
+        }
+
+        .shop-all-content {
             display: flex;
-            gap: 15px;
-            z-index: 100;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            height: 200px;
+            background: #f8f6f3;
+            border-radius: 8px;
         }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .shop-menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 0;
+            color: #4a4a4a;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #e0e0e0;
+            transition: color 0.3s ease;
         }
 
-        .dot.active {
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.2);
+        .shop-menu-item:hover {
+            color: #6b4423;
         }
 
-        /* Navigation arrows for carousel */
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
+        .shop-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Coffee Mega Menu */
+        .coffee-menu {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 400"><rect width="1400" height="400" fill="%232c1810"/><circle cx="1100" cy="200" r="80" fill="%23f4f1ed" opacity="0.3"/><rect x="1050" y="150" width="100" height="100" rx="50" fill="%236b4423"/></svg>');
+            background-size: cover;
+            background-position: center;
             color: white;
-            font-size: 2rem;
-            padding: 15px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 100;
         }
 
-        .carousel-nav:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .coffee-menu .mega-menu-content {
+            text-align: center;
         }
 
-        .prev {
-            left: 20px;
+        .coffee-menu .hero-title {
+            color: white;
+            margin-bottom: 20px;
         }
 
-        .next {
-            right: 20px;
+        .coffee-menu .hero-description {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .coffee-menu .hero-cta {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: white;
+        }
+
+        /* About Mega Menu */
+        .about-menu .mega-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .story-img {
+            background: linear-gradient(45deg, #6b4423 0%, #8b5a2b 100%);
+        }
+
+        .environment-img {
+            background: linear-gradient(45deg, #5a7a4a 0%, #6b8e5a 100%);
+        }
+
+        .news-img {
+            background: linear-gradient(45deg, #4a6b7a 0%, #5a7b8a 100%);
         }
 
         /* Trustpilot */
         .trustpilot {
             position: absolute;
-            bottom: 80px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -286,8 +383,8 @@ MAIN_TEMPLATE = '''
         }
 
         .trustpilot-logo {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.4rem;
             font-weight: 600;
         }
 
@@ -297,51 +394,10 @@ MAIN_TEMPLATE = '''
         }
 
         .star {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             background: #00b67a;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-        }
-
-        /* Scroll Down Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .scroll-indicator:hover {
-            color: rgba(255, 255, 255, 1);
-        }
-
-        .scroll-text {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .scroll-arrow {
-            width: 20px;
-            height: 20px;
-            border-right: 2px solid currentColor;
-            border-bottom: 2px solid currentColor;
-            transform: rotate(45deg);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: rotate(45deg) translateY(0); }
-            40% { transform: rotate(45deg) translateY(-10px); }
-            60% { transform: rotate(45deg) translateY(-5px); }
         }
 
         /* Services Section (Scroll Down Section) */
@@ -463,42 +519,6 @@ MAIN_TEMPLATE = '''
             font-size: 1.3rem;
         }
 
-        /* Background decorations for cards */
-        .coffee-card::before {
-            content: '';
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(107, 68, 35, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .machines-card::before {
-            content: '';
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            width: 100px;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px 50px 25px 25px;
-        }
-
-        .shop-card::before {
-            content: '';
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 120px;
-            height: 120px;
-            background: 
-                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-            border-radius: 50%;
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .header {
@@ -511,6 +531,21 @@ MAIN_TEMPLATE = '''
                 gap: 20px;
             }
 
+            .mega-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                padding: 80px 20px;
+                overflow-y: auto;
+            }
+
+            .mega-grid {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+
             .services-grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
@@ -521,8 +556,8 @@ MAIN_TEMPLATE = '''
                 padding: 40px;
             }
 
-            .slide-title {
-                font-size: 2.5rem;
+            .hero-title {
+                font-size: 3rem;
             }
 
             .services-title {
@@ -533,29 +568,115 @@ MAIN_TEMPLATE = '''
                 font-size: 2rem;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-
-            .carousel-nav {
-                display: none;
-            }
-
             .services-section {
                 padding: 60px 20px;
+            }
+
+            .contact-side-btn {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office Coffee Co.</a>
+        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
         <nav class="nav">
-            <a href="/machines">Machines</a>
-            <a href="/coffee">Coffee</a>
-            <a href="/shop">Shop</a>
-            <a href="/about">About</a>
+            <div class="nav-item">
+                <a href="/machines">Machines</a>
+                <div class="mega-menu machines-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-grid">
+                            <div class="mega-card" onclick="location.href='/machines'">
+                                <div class="mega-card-image office-coffee-img"></div>
+                                <h3 class="mega-card-title">Office Coffee <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                            <div class="mega-card" onclick="location.href='/machines'">
+                                <div class="mega-card-image commercial-img"></div>
+                                <h3 class="mega-card-title">Commercial <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                            <div class="mega-card" onclick="location.href='/machines'">
+                                <div class="mega-card-image filtered-water-img"></div>
+                                <h3 class="mega-card-title">Filtered Water <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="/shop">Shop</a>
+                <div class="mega-menu shop-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-grid">
+                            <div class="mega-card" onclick="location.href='/coffee'">
+                                <div class="mega-card-image coffee-img"></div>
+                                <h3 class="mega-card-title">Coffee <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                            <div class="mega-card" onclick="location.href='/shop'">
+                                <div class="mega-card-image tea-img"></div>
+                                <h3 class="mega-card-title">Tea <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                            <div class="mega-card">
+                                <div class="shop-all-content">
+                                    <h3 class="mega-card-title" style="margin-bottom: 20px; color: #2c1810;">Shop All</h3>
+                                    <a href="/shop" class="shop-menu-item">
+                                        <span>SUNDRIES</span>
+                                        <span>→</span>
+                                    </a>
+                                    <a href="/shop" class="shop-menu-item">
+                                        <span>DISPOSABLES</span>
+                                        <span>→</span>
+                                    </a>
+                                    <a href="/shop" class="shop-menu-item">
+                                        <span>EQUIPMENT</span>
+                                        <span>→</span>
+                                    </a>
+                                    <a href="/shop" class="shop-menu-item">
+                                        <span>SALE</span>
+                                        <span>→</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="/coffee">Coffee</a>
+                <div class="mega-menu coffee-menu">
+                    <div class="mega-menu-content">
+                        <h1 class="hero-title">Organise a coffee tasting for your colleagues</h1>
+                        <p class="hero-description">
+                            Host an obligation free coffee morning to sample our delicious blends and reliable machines
+                        </p>
+                        <a href="/machines" class="hero-cta">Coffee Machines</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="nav-item">
+                <a href="/about">About</a>
+                <div class="mega-menu about-menu">
+                    <div class="mega-menu-content">
+                        <div class="mega-grid">
+                            <div class="mega-card" onclick="location.href='/about'">
+                                <div class="mega-card-image story-img"></div>
+                                <h3 class="mega-card-title">Our Story <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                            <div class="mega-card" onclick="location.href='/about'">
+                                <div class="mega-card-image environment-img"></div>
+                                <h3 class="mega-card-title">Environment <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                            <div class="mega-card" onclick="location.href='/about'">
+                                <div class="mega-card-image news-img"></div>
+                                <h3 class="mega-card-title">News <span class="mega-card-arrow">→</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </nav>
         <div class="contact-info">
             <span>📞 0203 763 4035</span>
@@ -563,87 +684,32 @@ MAIN_TEMPLATE = '''
         </div>
     </div>
 
+    <button class="contact-side-btn" onclick="showContactForm()">CONTACT US</button>
+
     <div class="main-container">
-        <!-- Carousel Section (Auto-scrolling between 2 slides) -->
-        <div class="carousel-container">
-            <div class="carousel-wrapper" id="carouselWrapper">
-                <!-- Coffee Tasting Slide (First) -->
-                <div class="carousel-slide tasting-slide">
-                    <div class="tasting-bg"></div>
-                    <div class="slide-content">
-                        <h1 class="slide-title">Organise a coffee tasting for your colleagues</h1>
-                        <p class="slide-description">
-                            Host an obligation-free coffee morning to sample our delicious blends and reliable machines. 
-                            Discover the perfect coffee solution for your workplace.
-                        </p>
-                        <a href="/machines" class="cta-button">
-                            Explore Coffee Machines
-                        </a>
-                    </div>
-                    
-                    <div class="trustpilot">
-                        <div class="trustpilot-logo">★ Trustpilot</div>
-                        <div class="stars">
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                            <div class="star"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- About Slide (Second) -->
-                <div class="carousel-slide about-slide">
-                    <div class="about-bg"></div>
-                    <div class="slide-content">
-                        <h1 class="slide-title">Trusted by hundreds of businesses</h1>
-                        <p class="slide-description">
-                            Over a decade of experience providing premium coffee solutions to offices across the UK. 
-                            Join our family of satisfied clients.
-                        </p>
-                        
-                        <div class="stats-grid">
-                            <div class="stat">
-                                <span class="stat-number">500+</span>
-                                <div class="stat-label">Happy Clients</div>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">10+</span>
-                                <div class="stat-label">Years Experience</div>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">1M+</span>
-                                <div class="stat-label">Cups Served</div>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">24/7</span>
-                                <div class="stat-label">Support Available</div>
-                            </div>
-                        </div>
-                        
-                        <a href="/about" class="cta-button">
-                            Learn More About Us
-                        </a>
-                    </div>
-                </div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Delicious coffee for your office</h1>
+                <p class="hero-description">
+                    At the Office Coffee Company, we specialise in barista-quality machines and ethically 
+                    sourced beans, for your workplace.
+                </p>
+                <a href="/machines" class="hero-cta">Coffee Machines</a>
             </div>
-
-            <!-- Navigation for carousel -->
-            <button class="carousel-nav prev" onclick="changeSlide(-1)">‹</button>
-            <button class="carousel-nav next" onclick="changeSlide(1)">›</button>
             
-            <div class="carousel-dots">
-                <div class="dot active" onclick="goToSlide(0)"></div>
-                <div class="dot" onclick="goToSlide(1)"></div>
+            <div class="trustpilot">
+                <div class="trustpilot-logo">★ Trustpilot</div>
+                <div class="stars">
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                </div>
             </div>
-
-            <!-- Scroll down indicator -->
-            <div class="scroll-indicator" onclick="scrollToServices()">
-                <div class="scroll-text">Scroll Down</div>
-                <div class="scroll-arrow"></div>
-            </div>
-        </div>
+        </section>
 
         <!-- Services Section (Appears on scroll down) -->
         <section class="services-section" id="servicesSection">
@@ -680,53 +746,6 @@ MAIN_TEMPLATE = '''
     </div>
 
     <script>
-        let currentSlide = 0;
-        const totalSlides = 2;
-        let autoSlideTimer;
-        const carouselWrapper = document.getElementById('carouselWrapper');
-
-        function updateCarousel() {
-            const translateX = -currentSlide * 50;
-            carouselWrapper.style.transform = `translateX(${translateX}%)`;
-            
-            // Update dots
-            document.querySelectorAll('.dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-        }
-
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            updateCarousel();
-            resetAutoSlide();
-        }
-
-        function changeSlide(direction) {
-            currentSlide += direction;
-            if (currentSlide >= totalSlides) currentSlide = 0;
-            if (currentSlide < 0) currentSlide = totalSlides - 1;
-            updateCarousel();
-            resetAutoSlide();
-        }
-
-        function startAutoSlide() {
-            autoSlideTimer = setInterval(() => {
-                currentSlide = (currentSlide + 1) % totalSlides;
-                updateCarousel();
-            }, 5000);
-        }
-
-        function resetAutoSlide() {
-            clearInterval(autoSlideTimer);
-            setTimeout(startAutoSlide, 2000);
-        }
-
-        function scrollToServices() {
-            document.getElementById('servicesSection').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
         // Contact form function
         function showContactForm() {
             const modal = document.createElement('div');
@@ -768,52 +787,45 @@ MAIN_TEMPLATE = '''
             event.target.closest('div').parentElement.remove();
         }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
-        });
+        // Smooth scroll to services
+        function scrollToServices() {
+            document.getElementById('servicesSection').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
 
-        // Touch/swipe support for mobile
-        let startX = 0;
-        let endX = 0;
-
-        carouselWrapper.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
-
-        carouselWrapper.addEventListener('touchend', (e) => {
-            endX = e.changedTouches[0].clientX;
-            const difference = startX - endX;
+        // Handle mega menu interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
             
-            if (Math.abs(difference) > 50) {
-                if (difference > 0) {
-                    changeSlide(1); // Swipe left
-                } else {
-                    changeSlide(-1); // Swipe right
+            navItems.forEach(item => {
+                const link = item.querySelector('a');
+                const menu = item.querySelector('.mega-menu');
+                
+                if (menu) {
+                    let hoverTimeout;
+                    
+                    item.addEventListener('mouseenter', () => {
+                        clearTimeout(hoverTimeout);
+                        menu.style.opacity = '1';
+                        menu.style.visibility = 'visible';
+                    });
+                    
+                    item.addEventListener('mouseleave', () => {
+                        hoverTimeout = setTimeout(() => {
+                            menu.style.opacity = '0';
+                            menu.style.visibility = 'hidden';
+                        }, 100);
+                    });
                 }
-            }
-        });
-
-        // Pause auto-slide on hover
-        carouselWrapper.addEventListener('mouseenter', () => {
-            clearInterval(autoSlideTimer);
-        });
-
-        carouselWrapper.addEventListener('mouseleave', () => {
-            startAutoSlide();
-        });
-
-        // Start auto-slide when page loads
-        window.addEventListener('load', () => {
-            setTimeout(startAutoSlide, 2000);
+            });
         });
     </script>
 </body>
 </html>
 '''
 
-# Coffee page template
+# Coffee page template (simplified)
 COFFEE_PAGE_TEMPLATE = '''
 <!DOCTYPE html>
 <html lang="en">
@@ -840,7 +852,13 @@ COFFEE_PAGE_TEMPLATE = '''
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .logo { font-size: 1.8rem; font-weight: 700; color: #2c1810; text-decoration: none; }
+        .logo { 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: #2c1810; 
+            text-decoration: none; 
+            line-height: 1.2;
+        }
         
         .container {
             max-width: 1200px;
@@ -942,7 +960,7 @@ COFFEE_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office Coffee Co.</a>
+        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -1024,7 +1042,13 @@ MACHINES_PAGE_TEMPLATE = '''
             align-items: center;
         }
         
-        .logo { font-size: 1.8rem; font-weight: 700; color: white; text-decoration: none; }
+        .logo { 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: white; 
+            text-decoration: none; 
+            line-height: 1.2;
+        }
         
         .container {
             max-width: 1200px;
@@ -1141,7 +1165,7 @@ MACHINES_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office Coffee Co.</a>
+        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -1247,7 +1271,13 @@ SHOP_PAGE_TEMPLATE = '''
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .logo { font-size: 1.8rem; font-weight: 700; color: #2c1810; text-decoration: none; }
+        .logo { 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: #2c1810; 
+            text-decoration: none; 
+            line-height: 1.2;
+        }
         
         .container {
             max-width: 1200px;
@@ -1361,7 +1391,7 @@ SHOP_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office Coffee Co.</a>
+        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -1452,7 +1482,13 @@ ABOUT_PAGE_TEMPLATE = '''
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
         
-        .logo { font-size: 1.8rem; font-weight: 700; color: #2c1810; text-decoration: none; }
+        .logo { 
+            font-size: 1.8rem; 
+            font-weight: 700; 
+            color: #2c1810; 
+            text-decoration: none; 
+            line-height: 1.2;
+        }
         
         .container {
             max-width: 1000px;
@@ -1550,7 +1586,7 @@ ABOUT_PAGE_TEMPLATE = '''
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo">Office Coffee Co.</a>
+        <a href="/" class="logo">Office<br>Coffee<br>Co.</a>
     </div>
     
     <div class="container">
@@ -1619,4 +1655,5 @@ def about():
     return render_template_string(ABOUT_PAGE_TEMPLATE)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
