@@ -203,8 +203,8 @@ MAIN_TEMPLATE = '''
 
         /* MEGA MENU STYLES - INTEGRATED LAYOUT */
         .mega-menu {
-            position: absolute;
-            top: 100%;
+            position: fixed;
+            top: 70px;
             left: 0;
             width: 100vw;
             background: rgba(255, 255, 255, 0.98);
@@ -225,13 +225,13 @@ MAIN_TEMPLATE = '''
         }
 
         /* Push hero section down when mega menu is active */
-        .hero-section.mega-menu-active {
-            margin-top: 390px;
-        }
-
         .hero-section {
             transition: margin-top 0.4s ease;
             margin-top: 70px;
+        }
+
+        .hero-section.mega-menu-active {
+            margin-top: 470px;
         }
 
         .mega-menu-content {
@@ -1148,9 +1148,11 @@ MAIN_TEMPLATE = '''
                     
                     item.addEventListener('mouseenter', () => {
                         clearTimeout(hoverTimeout);
+                        
+                        // Show mega menu
                         menu.style.opacity = '1';
                         menu.style.maxHeight = '400px';
-                        menu.style.padding = '60px 40px';
+                        menu.style.padding = '60px 0';
                         
                         // Push hero section down
                         if (heroSection) {
@@ -1160,9 +1162,10 @@ MAIN_TEMPLATE = '''
                     
                     item.addEventListener('mouseleave', () => {
                         hoverTimeout = setTimeout(() => {
+                            // Hide mega menu
                             menu.style.opacity = '0';
                             menu.style.maxHeight = '0';
-                            menu.style.padding = '0 40px';
+                            menu.style.padding = '0';
                             
                             // Reset hero section
                             if (heroSection) {
