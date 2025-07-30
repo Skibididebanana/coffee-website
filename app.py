@@ -208,23 +208,17 @@ MAIN_TEMPLATE = '''
             position: relative;
             width: 100%;
             height: 100%;
+            display: flex;
+            transition: transform 0.6s ease-in-out;
         }
 
         .carousel-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+            min-width: 100%;
             height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .carousel-slide.active {
-            opacity: 1;
+            position: relative;
         }
 
         .slide-1 {
@@ -302,6 +296,41 @@ MAIN_TEMPLATE = '''
         .hero-cta:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 1);
+        }
+
+        /* Carousel Navigation Arrows */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 20;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .carousel-prev {
+            left: 30px;
+        }
+
+        .carousel-next {
+            right: 30px;
         }
 
         /* Carousel Indicators */
@@ -647,6 +676,27 @@ MAIN_TEMPLATE = '''
             .trustpilot {
                 bottom: 60px;
             }
+
+            /* Touch/Scroll support for mobile */
+            .carousel-container {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+            }
+
+            .carousel-container::-webkit-scrollbar {
+                display: none;
+            }
+
+            .carousel-slide {
+                scroll-snap-align: start;
+            }
+
+            .carousel-nav {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -782,9 +832,9 @@ MAIN_TEMPLATE = '''
     <div class="main-container">
         <!-- Hero Section with Carousel -->
         <section class="hero-section">
-            <div class="carousel-container">
+            <div class="carousel-container" id="carouselContainer">
                 <!-- Slide 1: Coffee Machines -->
-                <div class="carousel-slide active slide-1">
+                <div class="carousel-slide slide-1">
                     <div class="hero-overlay"></div>
                     <div class="hero-content">
                         <h1 class="hero-title">Professional Coffee Machines</h1>
@@ -822,6 +872,10 @@ MAIN_TEMPLATE = '''
                     </div>
                 </div>
             </div>
+
+            <!-- Navigation Arrows -->
+            <div class="carousel-nav carousel-prev" onclick="prevSlide()">‹</div>
+            <div class="carousel-nav carousel-next" onclick="nextSlide()">›</div>
 
             <!-- Carousel Indicators -->
             <div class="carousel-indicators">
@@ -879,30 +933,96 @@ MAIN_TEMPLATE = '''
     <script>
         // Carousel functionality
         let currentSlide = 0;
+        const carousel = document.getElementById('carouselContainer');
         const slides = document.querySelectorAll('.carousel-slide');
         const indicators = document.querySelectorAll('.carousel-indicator');
         const totalSlides = slides.length;
 
+        function updateCarousel() {
+            const translateX = -currentSlide * 100;
+            carousel.style.transform = `translateX(${translateX}%)`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
         function goToSlide(index) {
-            // Remove active class from current slide and indicator
-            slides[currentSlide].classList.remove('active');
-            indicators[currentSlide].classList.remove('active');
-            
-            // Set new slide
             currentSlide = index;
-            
-            // Add active class to new slide and indicator
-            slides[currentSlide].classList.add('active');
-            indicators[currentSlide].classList.add('active');
+            updateCarousel();
         }
 
         function nextSlide() {
-            const nextIndex = (currentSlide + 1) % totalSlides;
-            goToSlide(nextIndex);
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
         }
 
         // Auto-advance carousel every 5 seconds
-        setInterval(nextSlide, 5000);
+        let autoSlideInterval = setInterval(nextSlide, 5000);
+
+        // Pause auto-slide on hover
+        const heroSection = document.querySelector('.hero-section');
+        heroSection.addEventListener('mouseenter', () => {
+            clearInterval(autoSlideInterval);
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        });
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            clearInterval(autoSlideInterval);
+        });
+
+        carousel.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            e.preventDefault();
+        });
+
+        carousel.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const diffX = startX - currentX;
+            const threshold = 50;
+            
+            if (Math.abs(diffX) > threshold) {
+                if (diffX > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+            
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+        });
 
         // Mobile menu toggle
         function toggleMobileMenu() {
