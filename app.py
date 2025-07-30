@@ -117,6 +117,61 @@ MAIN_TEMPLATE = '''
             color: #6b4423;
         }
 
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 100000;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c1810;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 99998;
+            padding: 20px 0;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 0 40px;
+        }
+
+        .mobile-nav a {
+            color: #4a4a4a;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-nav a:hover {
+            color: #6b4423;
+        }
+
         .contact-side-btn {
             position: fixed;
             right: 0;
@@ -140,18 +195,54 @@ MAIN_TEMPLATE = '''
             background: #5a7a4a;
         }
 
-        /* Hero Section */
+        /* Hero Section with Carousel */
         .hero-section {
             height: 100vh;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800"><defs><filter id="blur"><feGaussianBlur stdDeviation="3"/></filter></defs><rect width="1400" height="800" fill="%23e8e4df"/><rect x="100" y="200" width="300" height="400" rx="20" fill="%23f5f3f0" filter="url(%23blur)"/><rect x="500" y="150" width="400" height="500" rx="30" fill="%23f8f6f3" filter="url(%23blur)"/><rect x="1000" y="180" width="250" height="350" rx="15" fill="%23f2f0ed" filter="url(%23blur)"/><circle cx="200" cy="400" r="60" fill="%23ffffff" opacity="0.9"/><circle cx="700" cy="350" r="80" fill="%23f9f7f4" opacity="0.8"/><circle cx="1100" cy="400" r="50" fill="%23ffffff" opacity="0.7"/><rect x="150" y="350" width="100" height="100" rx="50" fill="%236b4423" opacity="0.3"/><rect x="650" y="300" width="100" height="100" rx="50" fill="%236b4423" opacity="0.2"/><text x="180" y="410" font-family="Arial" font-size="20" fill="%236b4423" opacity="0.6">Office Coffee Co.</text><text x="680" y="360" font-family="Arial" font-size="16" fill="%236b4423" opacity="0.4">Coffee</text></svg>');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
             margin-top: 70px;
             transition: margin-top 0.4s ease;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .slide-1 {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800"><defs><filter id="blur"><feGaussianBlur stdDeviation="3"/></filter></defs><rect width="1400" height="800" fill="%23e8e4df"/><rect x="100" y="200" width="300" height="400" rx="20" fill="%23333" filter="url(%23blur)"/><rect x="120" y="220" width="260" height="360" rx="15" fill="%23444"/><rect x="150" y="250" width="80" height="120" fill="%236b4423" rx="10"/><rect x="250" y="270" width="100" height="100" fill="%235a3619" rx="15"/><rect x="500" y="150" width="400" height="500" rx="30" fill="%23f8f6f3" filter="url(%23blur)"/><circle cx="700" cy="400" r="120" fill="%236b4423" opacity="0.8"/><text x="700" y="410" text-anchor="middle" font-family="Arial" font-size="24" fill="%23ffffff" font-weight="bold">Coffee Machine</text><rect x="1000" y="180" width="250" height="350" rx="15" fill="%23f2f0ed" filter="url(%23blur)"/></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide-2 {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800"><rect width="1400" height="800" fill="%23f4f1ed"/><circle cx="300" cy="300" r="80" fill="%236b4423"/><circle cx="500" cy="400" r="100" fill="%238b5a2b"/><circle cx="700" cy="350" r="90" fill="%236b4423"/><circle cx="900" cy="320" r="70" fill="%235a3619"/><circle cx="1100" cy="380" r="85" fill="%236b4423"/><path d="M300 250 Q290 270 300 290 Q310 270 300 250" fill="%238b5a2b"/><path d="M500 350 Q485 370 500 390 Q515 370 500 350" fill="%236b4423"/><path d="M700 300 Q690 320 700 340 Q710 320 700 300" fill="%235a3619"/><text x="700" y="500" text-anchor="middle" font-family="Arial" font-size="32" fill="%232c1810" font-weight="bold">Premium Coffee Beans</text></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide-3 {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800"><rect width="1400" height="800" fill="%23f8f6f3"/><rect x="200" y="150" width="400" height="300" fill="%23d4a574" rx="20"/><rect x="220" y="170" width="360" height="260" fill="%23ffffff" rx="15"/><rect x="250" y="200" width="100" height="80" fill="%23333" rx="10"/><rect x="380" y="220" width="120" height="60" fill="%23444" rx="8"/><rect x="520" y="200" width="80" height="80" fill="%23333" rx="10"/><rect x="800" y="200" width="300" height="250" fill="%23b8935e" rx="15"/><rect x="820" y="220" width="260" height="210" fill="%23ffffff" rx="10"/><circle cx="950" cy="325" r="40" fill="%236b4423"/><text x="700" y="550" text-anchor="middle" font-family="Arial" font-size="28" fill="%232c1810" font-weight="bold">Office Coffee Setup</text></svg>');
+            background-size: cover;
+            background-position: center;
         }
 
         .hero-overlay {
@@ -213,16 +304,41 @@ MAIN_TEMPLATE = '''
             border-color: rgba(255, 255, 255, 1);
         }
 
+        /* Carousel Indicators */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 15;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: rgba(255, 255, 255, 1);
+        }
+
         /* Trustpilot */
         .trustpilot {
             position: absolute;
-            bottom: 40px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
+            z-index: 15;
         }
 
         .trustpilot-logo {
@@ -502,8 +618,14 @@ MAIN_TEMPLATE = '''
         @media (max-width: 768px) {
             .header {
                 padding: 15px 20px;
-                flex-direction: column;
-                gap: 20px;
+            }
+            
+            .header-right {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
             }
             
             .hero-title {
@@ -516,6 +638,14 @@ MAIN_TEMPLATE = '''
             
             .contact-side-btn {
                 display: none;
+            }
+
+            .carousel-indicators {
+                bottom: 20px;
+            }
+
+            .trustpilot {
+                bottom: 60px;
             }
         }
     </style>
@@ -628,21 +758,76 @@ MAIN_TEMPLATE = '''
                 <span class="cart-icon">🛒</span>
             </div>
         </div>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-nav">
+            <a href="{{ url_for('machines') }}">Machines</a>
+            <a href="{{ url_for('shop') }}">Shop</a>
+            <a href="{{ url_for('coffee') }}">Coffee</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </nav>
     </div>
 
     <button class="contact-side-btn" onclick="showContactForm()">CONTACT US</button>
 
     <div class="main-container">
-        <!-- Hero Section -->
+        <!-- Hero Section with Carousel -->
         <section class="hero-section">
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h1 class="hero-title">Delicious coffee for your office</h1>
-                <p class="hero-description">
-                    At the Office Coffee Company, we specialise in barista-quality machines and ethically 
-                    sourced beans, for your workplace.
-                </p>
-                <a href="{{ url_for('machines') }}" class="hero-cta">Coffee Machines</a>
+            <div class="carousel-container">
+                <!-- Slide 1: Coffee Machines -->
+                <div class="carousel-slide active slide-1">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h1 class="hero-title">Professional Coffee Machines</h1>
+                        <p class="hero-description">
+                            State-of-the-art coffee machines designed for office environments. 
+                            Reliable, efficient, and easy to use for teams of any size.
+                        </p>
+                        <a href="{{ url_for('machines') }}" class="hero-cta">View Machines</a>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Premium Coffee -->
+                <div class="carousel-slide slide-2">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h1 class="hero-title">Premium Coffee Beans</h1>
+                        <p class="hero-description">
+                            Ethically sourced, expertly roasted coffee beans from the finest 
+                            coffee farms around the world. Perfect for your office.
+                        </p>
+                        <a href="{{ url_for('coffee') }}" class="hero-cta">Explore Coffee</a>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Complete Solutions -->
+                <div class="carousel-slide slide-3">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <h1 class="hero-title">Complete Office Solutions</h1>
+                        <p class="hero-description">
+                            Everything you need for the perfect office coffee experience. 
+                            From installation to maintenance, we've got you covered.
+                        </p>
+                        <a href="{{ url_for('shop') }}" class="hero-cta">Get Started</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators">
+                <div class="carousel-indicator active" onclick="goToSlide(0)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(1)"></div>
+                <div class="carousel-indicator" onclick="goToSlide(2)"></div>
             </div>
             
             <div class="trustpilot">
@@ -692,7 +877,40 @@ MAIN_TEMPLATE = '''
     </div>
 
     <script>
-        // Handle mega menu interactions with 1.5 second grace period
+        // Carousel functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const totalSlides = slides.length;
+
+        function goToSlide(index) {
+            // Remove active class from current slide and indicator
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('active');
+            
+            // Set new slide
+            currentSlide = index;
+            
+            // Add active class to new slide and indicator
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            const nextIndex = (currentSlide + 1) % totalSlides;
+            goToSlide(nextIndex);
+        }
+
+        // Auto-advance carousel every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Handle mega menu interactions with 0.5 second grace period
         document.addEventListener('DOMContentLoaded', function() {
             const navItems = document.querySelectorAll('.nav-item');
             const heroSection = document.querySelector('.hero-section');
@@ -740,7 +958,7 @@ MAIN_TEMPLATE = '''
                         hideHeroAndContact();
                         hideAllMenus();
                     }
-                }, 1500); // 1.5 SECOND GRACE PERIOD
+                }, 500); // 0.5 SECOND GRACE PERIOD (changed from 1500)
             }
             
             navItems.forEach(item => {
@@ -780,7 +998,7 @@ MAIN_TEMPLATE = '''
                     
                     item.addEventListener('mouseleave', () => {
                         isHoveringAnyNav = false;
-                        // Start 1.5 second grace period
+                        // Start 0.5 second grace period
                         startGracePeriod();
                     });
                 }
