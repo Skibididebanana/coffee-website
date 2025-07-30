@@ -1205,6 +1205,36 @@ MACHINES_PAGE_TEMPLATE = '''
                 <div class="machine-image">⚙️</div>
                 <div class="machine-content">
                     <h3 class="machine-title">Office Pro 2000</h3>
+                    <p class="machine-description">Perfect for small to medium offices. Makes up to 200 cups per day with consistent quality.</p>
+                    <ul class="machine-features">
+                        <li>Bean-to-cup technology</li>
+                        <li>Touch screen interface</li>
+                        <li>Self-cleaning function</li>
+                        <li>Energy efficient</li>
+                    </ul>
+                    <div class="machine-price">From £45/month</div>
+                </div>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-image">🏢</div>
+                <div class="machine-content">
+                    <h3 class="machine-title">Corporate Elite</h3>
+                    <p class="machine-description">Heavy-duty machine for large offices. Handles 500+ cups daily with multiple drink options.</p>
+                    <ul class="machine-features">
+                        <li>Multiple coffee varieties</li>
+                        <li>Hot chocolate & tea options</li>
+                        <li>Advanced grinder system</li>
+                        <li>Remote monitoring</li>
+                    </ul>
+                    <div class="machine-price">From £89/month</div>
+                </div>
+            </div>
+            
+            <div class="machine-card">
+                <div class="machine-image">☕</div>
+                <div class="machine-content">
+                    <h3 class="machine-title">Compact Express</h3>
                     <p class="machine-description">Space-saving solution for smaller teams. Great coffee quality in a compact design.</p>
                     <ul class="machine-features">
                         <li>Small footprint</li>
@@ -1653,34 +1683,4 @@ def about():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)-description">Perfect for small to medium offices. Makes up to 200 cups per day with consistent quality.</p>
-                    <ul class="machine-features">
-                        <li>Bean-to-cup technology</li>
-                        <li>Touch screen interface</li>
-                        <li>Self-cleaning function</li>
-                        <li>Energy efficient</li>
-                    </ul>
-                    <div class="machine-price">From £45/month</div>
-                </div>
-            </div>
-            
-            <div class="machine-card">
-                <div class="machine-image">🏢</div>
-                <div class="machine-content">
-                    <h3 class="machine-title">Corporate Elite</h3>
-                    <p class="machine-description">Heavy-duty machine for large offices. Handles 500+ cups daily with multiple drink options.</p>
-                    <ul class="machine-features">
-                        <li>Multiple coffee varieties</li>
-                        <li>Hot chocolate & tea options</li>
-                        <li>Advanced grinder system</li>
-                        <li>Remote monitoring</li>
-                    </ul>
-                    <div class="machine-price">From £89/month</div>
-                </div>
-            </div>
-            
-            <div class="machine-card">
-                <div class="machine-image">☕</div>
-                <div class="machine-content">
-                    <h3 class="machine-title">Compact Express</h3>
-                    <p class="machine
+    app.run(host='0.0.0.0', port=port)
