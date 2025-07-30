@@ -237,7 +237,7 @@ MAIN_TEMPLATE = '''
         .contact-side-btn {
             position: fixed;
             right: 0;
-            top: 50%;
+            top: 50vh;
             transform: translateY(-50%);
             background: #6b8e5a;
             color: white;
@@ -254,7 +254,7 @@ MAIN_TEMPLATE = '''
         }
 
         .contact-side-btn.mega-menu-active {
-            top: calc(50% + 200px);
+            top: calc(50vh + 200px);
         }
 
         .contact-side-btn:hover {
@@ -275,6 +275,25 @@ MAIN_TEMPLATE = '''
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Make logo and nav items stay above mega menu */
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c1810;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1002;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+            position: relative;
+            z-index: 1002;
         }
 
         .contact-info {
@@ -355,6 +374,8 @@ MAIN_TEMPLATE = '''
             margin-bottom: 10px;
             font-weight: 400;
             text-shadow: none;
+            position: relative;
+            z-index: 1;
         }
 
         .mega-card-arrow {
