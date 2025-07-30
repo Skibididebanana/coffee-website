@@ -214,7 +214,7 @@ MAIN_TEMPLATE = '''
             overflow: hidden;
             transition: all 0.4s ease;
             padding: 0;
-            z-index: 999;
+            z-index: 500;
             opacity: 0;
         }
 
@@ -224,7 +224,7 @@ MAIN_TEMPLATE = '''
             padding: 60px 0;
         }
 
-        /* Push hero section down when mega menu is active */
+        /* Push hero section and contact button down when mega menu is active */
         .hero-section {
             transition: margin-top 0.4s ease;
             margin-top: 70px;
@@ -234,10 +234,64 @@ MAIN_TEMPLATE = '''
             margin-top: 470px;
         }
 
-        .mega-menu-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
+        .contact-side-btn {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #6b8e5a;
+            color: white;
+            padding: 60px 20px;
+            border: none;
+            cursor: pointer;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1002;
+            transition: top 0.4s ease;
+        }
+
+        .contact-side-btn.mega-menu-active {
+            top: calc(50% + 200px);
+        }
+
+        .contact-side-btn:hover {
+            background: #5a7a4a;
+        }
+
+        /* Ensure header elements stay above mega menu */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            color: #4a4a4a;
+            font-weight: 500;
+            z-index: 1002;
+            position: relative;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1002;
+            position: relative;
         }
 
         /* Machines Mega Menu */
