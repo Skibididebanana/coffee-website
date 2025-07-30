@@ -301,20 +301,19 @@ MAIN_TEMPLATE = '''
         /* Carousel Navigation Arrows */
         .carousel-nav {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: 120px;
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             z-index: 20;
             transition: all 0.3s ease;
             user-select: none;
@@ -323,20 +322,23 @@ MAIN_TEMPLATE = '''
         .carousel-nav:hover {
             background: rgba(255, 255, 255, 0.3);
             border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
         }
 
         .carousel-prev {
-            left: 30px;
+            left: 50%;
+            transform: translateX(-80px);
         }
 
         .carousel-next {
-            right: 30px;
+            right: 50%;
+            transform: translateX(80px);
         }
 
         /* Carousel Indicators */
         .carousel-indicators {
             position: absolute;
-            bottom: 40px;
+            bottom: 60px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -360,7 +362,7 @@ MAIN_TEMPLATE = '''
         /* Trustpilot */
         .trustpilot {
             position: absolute;
-            bottom: 100px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -670,11 +672,23 @@ MAIN_TEMPLATE = '''
             }
 
             .carousel-indicators {
-                bottom: 20px;
+                bottom: 30px;
             }
 
             .trustpilot {
-                bottom: 60px;
+                bottom: 5px;
+            }
+
+            .carousel-nav {
+                bottom: 80px;
+            }
+
+            .carousel-prev {
+                transform: translateX(-60px);
+            }
+
+            .carousel-next {
+                transform: translateX(60px);
             }
 
             /* Touch/Scroll support for mobile */
@@ -963,8 +977,8 @@ MAIN_TEMPLATE = '''
             updateCarousel();
         }
 
-        // Auto-advance carousel every 5 seconds
-        let autoSlideInterval = setInterval(nextSlide, 5000);
+        // Auto-advance carousel every 3 seconds
+        let autoSlideInterval = setInterval(nextSlide, 3000);
 
         // Pause auto-slide on hover
         const heroSection = document.querySelector('.hero-section');
@@ -973,7 +987,7 @@ MAIN_TEMPLATE = '''
         });
 
         heroSection.addEventListener('mouseleave', () => {
-            autoSlideInterval = setInterval(nextSlide, 5000);
+            autoSlideInterval = setInterval(nextSlide, 3000);
         });
 
         // Touch/swipe support for mobile
@@ -1008,7 +1022,7 @@ MAIN_TEMPLATE = '''
                 }
             }
             
-            autoSlideInterval = setInterval(nextSlide, 5000);
+            autoSlideInterval = setInterval(nextSlide, 3000);
         });
 
         // Keyboard navigation
@@ -1016,11 +1030,11 @@ MAIN_TEMPLATE = '''
             if (e.key === 'ArrowLeft') {
                 prevSlide();
                 clearInterval(autoSlideInterval);
-                autoSlideInterval = setInterval(nextSlide, 5000);
+                autoSlideInterval = setInterval(nextSlide, 3000);
             } else if (e.key === 'ArrowRight') {
                 nextSlide();
                 clearInterval(autoSlideInterval);
-                autoSlideInterval = setInterval(nextSlide, 5000);
+                autoSlideInterval = setInterval(nextSlide, 3000);
             }
         });
 
