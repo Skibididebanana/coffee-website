@@ -50,7 +50,7 @@ MAIN_TEMPLATE = '''
             letter-spacing: -0.5px;
             line-height: 1.2;
             position: relative;
-            z-index: 1003;
+            z-index: 1004;
         }
 
         /* RIGHT SIDE - Navigation + Phone + Icons */
@@ -459,7 +459,9 @@ MAIN_TEMPLATE = '''
 
         /* Coffee Mega Menu */
         .coffee-menu {
-            background: linear-gradient(135deg, rgba(44, 24, 16, 0.9) 0%, rgba(74, 52, 38, 0.8) 100%);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .coffee-menu .mega-menu-content {
@@ -467,25 +469,26 @@ MAIN_TEMPLATE = '''
         }
 
         .coffee-menu .hero-title {
-            color: white;
+            color: #2c1810;
             margin-bottom: 20px;
             font-size: 3.5rem;
         }
 
         .coffee-menu .hero-description {
-            color: rgba(255, 255, 255, 0.9);
+            color: #6b5c47;
             margin-bottom: 30px;
             font-size: 1.2rem;
         }
 
         .coffee-menu .hero-cta {
             background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            color: white;
+            border: 2px solid #6b4423;
+            color: #6b4423;
         }
 
         .coffee-menu .hero-cta:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: #6b4423;
+            color: white;
         }
 
         /* About Mega Menu */
