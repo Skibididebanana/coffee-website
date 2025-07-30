@@ -213,7 +213,7 @@ MAIN_TEMPLATE = '''
             max-height: 0;
             overflow: hidden;
             transition: all 0.4s ease;
-            padding: 0 40px;
+            padding: 0;
             z-index: 999;
             opacity: 0;
         }
@@ -221,7 +221,7 @@ MAIN_TEMPLATE = '''
         .nav-item:hover .mega-menu {
             max-height: 400px;
             opacity: 1;
-            padding: 60px 40px;
+            padding: 60px 0;
         }
 
         /* Push hero section down when mega menu is active */
@@ -237,6 +237,7 @@ MAIN_TEMPLATE = '''
         .mega-menu-content {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 0 40px;
         }
 
         /* Machines Mega Menu */
