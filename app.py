@@ -201,26 +201,38 @@ MAIN_TEMPLATE = '''
             border-color: rgba(255, 255, 255, 1);
         }
 
-        /* MEGA MENU STYLES - TRANSPARENT BLENDING */
+        /* MEGA MENU STYLES - INTEGRATED LAYOUT */
         .mega-menu {
-            position: absolute;
-            top: 100%;
+            position: fixed;
+            top: 70px;
             left: 0;
             width: 100vw;
-            background: transparent;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-            padding: 80px 40px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            padding: 0 40px;
             z-index: 999;
-            pointer-events: none;
+            opacity: 0;
         }
 
         .nav-item:hover .mega-menu {
+            max-height: 400px;
             opacity: 1;
-            visibility: visible;
-            pointer-events: all;
+            padding: 80px 40px;
+        }
+
+        /* Push content down when mega menu is active */
+        .nav-item:hover ~ .main-container,
+        .nav-item:hover ~ .main-container .hero-section {
+            transform: translateY(320px);
+            transition: transform 0.4s ease;
+        }
+
+        .main-container {
+            transition: transform 0.4s ease;
         }
 
         .mega-menu-content {
