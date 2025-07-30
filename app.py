@@ -230,7 +230,9 @@ MAIN_TEMPLATE = '''
 
         /* Machines Mega Menu */
         .machines-menu {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .machines-menu .mega-grid {
@@ -259,38 +261,40 @@ MAIN_TEMPLATE = '''
             background-position: center;
             border-radius: 8px;
             margin-bottom: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
         }
 
         .office-coffee-img {
-            background: linear-gradient(45deg, #8b7355 0%, #a68b5b 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f5f3f0"/><rect x="50" y="30" width="300" height="140" fill="%23ffffff" rx="10"/><rect x="70" y="50" width="60" height="80" fill="%232c1810" rx="5"/><rect x="150" y="60" width="40" height="60" fill="%236b4423" rx="20"/><rect x="210" y="55" width="80" height="70" fill="%23333" rx="10"/><rect x="310" y="45" width="30" height="90" fill="%236b4423" rx="15"/><circle cx="200" cy="40" r="15" fill="%236b4423"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Modern Office Setup</text></svg>');
         }
 
         .commercial-img {
-            background: linear-gradient(45deg, #5a7a4a 0%, #6b8e5a 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23e8e4df"/><rect x="100" y="40" width="200" height="120" fill="%23333" rx="10"/><rect x="120" y="60" width="50" height="80" fill="%236b4423" rx="5"/><rect x="180" y="70" width="30" height="60" fill="%23ffffff" rx="15"/><rect x="220" y="65" width="60" height="70" fill="%234a6b7a" rx="8"/><circle cx="150" cy="30" r="10" fill="%236b4423"/><circle cx="200" cy="25" r="8" fill="%23333"/><circle cx="250" cy="30" r="12" fill="%235a7a4a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Commercial Solutions</text></svg>');
         }
 
         .filtered-water-img {
-            background: linear-gradient(45deg, #4a6b7a 0%, #5a7b8a 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8ff"/><rect x="150" y="30" width="100" height="140" fill="%23333" rx="15"/><rect x="160" y="50" width="80" height="30" fill="%234a6b7a" rx="5"/><rect x="170" y="90" width="60" height="60" fill="%235a7b8a" rx="30"/><path d="M200 120 Q190 130 200 140 Q210 130 200 120" fill="%23ffffff"/><path d="M200 125 Q195 132 200 138 Q205 132 200 125" fill="%234a6b7a"/><text x="200" y="185" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Water Filtration</text></svg>');
         }
 
         .mega-card-title {
             font-size: 1.5rem;
-            color: white;
+            color: #2c1810;
             margin-bottom: 10px;
             font-weight: 400;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-shadow: none;
         }
 
         .mega-card-arrow {
-            color: rgba(255, 255, 255, 0.8);
+            color: #6b4423;
             font-size: 1.2rem;
             margin-left: 8px;
         }
 
         /* Shop Mega Menu */
         .shop-menu {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .shop-menu .mega-grid {
@@ -300,11 +304,11 @@ MAIN_TEMPLATE = '''
         }
 
         .coffee-img {
-            background: linear-gradient(45deg, #6b4423 0%, #8b5a2b 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f4f1ed"/><circle cx="120" cy="80" r="25" fill="%236b4423"/><circle cx="200" cy="70" r="30" fill="%238b5a2b"/><circle cx="280" cy="85" r="20" fill="%236b4423"/><circle cx="160" cy="120" r="15" fill="%234a3426"/><circle cx="240" cy="110" r="18" fill="%235a3619"/><path d="M200 40 Q190 50 200 60 Q210 50 200 40" fill="%236b4423"/><path d="M200 45 Q195 52 200 58 Q205 52 200 45" fill="%238b5a2b"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Premium Coffee Beans</text></svg>');
         }
 
         .tea-img {
-            background: linear-gradient(45deg, #5a7a4a 0%, #6b8e5a 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8f0"/><rect x="150" y="60" width="100" height="80" fill="%235a7a4a" rx="10"/><rect x="160" y="70" width="80" height="15" fill="%236b8e5a" rx="3"/><rect x="160" y="90" width="80" height="15" fill="%236b8e5a" rx="3"/><rect x="160" y="110" width="80" height="15" fill="%236b8e5a" rx="3"/><circle cx="100" cy="80" r="8" fill="%235a7a4a"/><circle cx="300" cy="90" r="10" fill="%235a7a4a"/><circle cx="120" cy="120" r="6" fill="%236b8e5a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Tea Collection</text></svg>');
         }
 
         .shop-all-content {
@@ -314,15 +318,15 @@ MAIN_TEMPLATE = '''
             align-items: flex-start;
             padding: 40px;
             height: 200px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(5px);
             border-radius: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .shop-all-content .mega-card-title {
             margin-bottom: 20px;
-            color: white;
+            color: #2c1810;
         }
 
         .shop-menu-item {
@@ -331,15 +335,15 @@ MAIN_TEMPLATE = '''
             justify-content: space-between;
             width: 100%;
             padding: 12px 0;
-            color: rgba(255, 255, 255, 0.9);
+            color: #6b5c47;
             text-decoration: none;
             font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             transition: color 0.3s ease;
         }
 
         .shop-menu-item:hover {
-            color: white;
+            color: #2c1810;
         }
 
         .shop-menu-item:last-child {
@@ -379,7 +383,9 @@ MAIN_TEMPLATE = '''
 
         /* About Mega Menu */
         .about-menu {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .about-menu .mega-grid {
@@ -389,15 +395,15 @@ MAIN_TEMPLATE = '''
         }
 
         .story-img {
-            background: linear-gradient(45deg, #6b4423 0%, #8b5a2b 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f8f6f3"/><rect x="50" y="50" width="300" height="100" fill="%23ffffff" rx="10"/><rect x="70" y="70" width="80" height="60" fill="%236b4423" rx="5"/><rect x="170" y="75" width="60" height="50" fill="%238b5a2b" rx="5"/><rect x="250" y="70" width="80" height="60" fill="%236b4423" rx="5"/><circle cx="110" cy="40" r="8" fill="%236b4423"/><circle cx="200" cy="35" r="10" fill="%238b5a2b"/><circle cx="290" cy="40" r="8" fill="%236b4423"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Our Story</text></svg>');
         }
 
         .environment-img {
-            background: linear-gradient(45deg, #5a7a4a 0%, #6b8e5a 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8f0"/><circle cx="150" cy="80" r="30" fill="%235a7a4a"/><circle cx="250" cy="90" r="25" fill="%236b8e5a"/><path d="M150 60 L140 80 L160 80 Z" fill="%234a6b4a"/><path d="M250 70 L240 90 L260 90 Z" fill="%235a7b5a"/><rect x="120" y="110" width="160" height="20" fill="%236b8e5a" rx="10"/><circle cx="100" cy="50" r="8" fill="%235a7a4a"/><circle cx="300" cy="60" r="10" fill="%236b8e5a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Sustainability</text></svg>');
         }
 
         .news-img {
-            background: linear-gradient(45deg, #4a6b7a 0%, #5a7b8a 100%);
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f5f7fa"/><rect x="80" y="40" width="240" height="120" fill="%23ffffff" rx="8"/><rect x="100" y="60" width="200" height="15" fill="%234a6b7a" rx="3"/><rect x="100" y="85" width="150" height="10" fill="%235a7b8a" rx="2"/><rect x="100" y="105" width="180" height="10" fill="%235a7b8a" rx="2"/><rect x="100" y="125" width="120" height="10" fill="%235a7b8a" rx="2"/><circle cx="60" cy="80" r="15" fill="%234a6b7a"/><circle cx="340" cy="90" r="12" fill="%235a7b8a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Latest News</text></svg>');
         }
 
         /* Trustpilot */
