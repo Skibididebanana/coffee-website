@@ -130,7 +130,7 @@ MAIN_TEMPLATE = '''
         /* Hero Section */
         .hero-section {
             height: 100vh;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%23f0f0f0"/><circle cx="300" cy="400" r="60" fill="%23ffffff" opacity="0.8"/><circle cx="900" cy="300" r="40" fill="%23ffffff" opacity="0.6"/><rect x="250" y="350" width="100" height="100" rx="50" fill="%23f5f5f5"/><rect x="850" y="250" width="100" height="100" rx="50" fill="%23f5f5f5"/></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800"><defs><filter id="blur"><feGaussianBlur stdDeviation="3"/></filter></defs><rect width="1400" height="800" fill="%23e8e4df"/><rect x="100" y="200" width="300" height="400" rx="20" fill="%23f5f3f0" filter="url(%23blur)"/><rect x="500" y="150" width="400" height="500" rx="30" fill="%23f8f6f3" filter="url(%23blur)"/><rect x="1000" y="180" width="250" height="350" rx="15" fill="%23f2f0ed" filter="url(%23blur)"/><circle cx="200" cy="400" r="60" fill="%23ffffff" opacity="0.9"/><circle cx="700" cy="350" r="80" fill="%23f9f7f4" opacity="0.8"/><circle cx="1100" cy="400" r="50" fill="%23ffffff" opacity="0.7"/><rect x="150" y="350" width="100" height="100" rx="50" fill="%236b4423" opacity="0.3"/><rect x="650" y="300" width="100" height="100" rx="50" fill="%236b4423" opacity="0.2"/><text x="180" y="410" font-family="Arial" font-size="20" fill="%236b4423" opacity="0.6">Office Coffee Co.</text><text x="680" y="360" font-family="Arial" font-size="16" fill="%236b4423" opacity="0.4">Coffee</text></svg>');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -146,7 +146,7 @@ MAIN_TEMPLATE = '''
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .hero-content {
