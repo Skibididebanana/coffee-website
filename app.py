@@ -51,6 +51,12 @@ MAIN_TEMPLATE = '''
             line-height: 1.2;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
         .nav {
             display: flex;
             gap: 30px;
@@ -87,6 +93,23 @@ MAIN_TEMPLATE = '''
             gap: 15px;
             color: #4a4a4a;
             font-weight: 500;
+        }
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-icon, .account-icon, .cart-icon {
+            color: #4a4a4a;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .search-icon:hover, .account-icon:hover, .cart-icon:hover {
+            color: #6b4423;
         }
 
         .contact-btn {
