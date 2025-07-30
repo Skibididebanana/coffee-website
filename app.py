@@ -268,24 +268,31 @@ MAIN_TEMPLATE = '''
 
         .mega-card-image {
             width: 100%;
-            height: 200px;
+            height: 250px;
             background-size: cover;
             background-position: center;
             border-radius: 8px;
             margin-bottom: 20px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .office-coffee-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f5f3f0"/><rect x="50" y="30" width="300" height="140" fill="%23ffffff" rx="10"/><rect x="70" y="50" width="60" height="80" fill="%232c1810" rx="5"/><rect x="150" y="60" width="40" height="60" fill="%236b4423" rx="20"/><rect x="210" y="55" width="80" height="70" fill="%23333" rx="10"/><rect x="310" y="45" width="30" height="90" fill="%236b4423" rx="15"/><circle cx="200" cy="40" r="15" fill="%236b4423"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Modern Office Setup</text></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="wood" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23d4a574;stop-opacity:1" /><stop offset="100%" style="stop-color:%23b8935e;stop-opacity:1" /></linearGradient></defs><rect width="400" height="300" fill="%23f5f3f0"/><rect x="0" y="200" width="400" height="100" fill="url(%23wood)"/><rect x="50" y="80" width="120" height="80" fill="%23333" rx="8"/><rect x="60" y="90" width="20" height="60" fill="%23666" rx="2"/><rect x="90" y="95" width="30" height="50" fill="%23222" rx="15"/><rect x="130" y="90" width="30" height="60" fill="%23666" rx="2"/><rect x="200" y="60" width="80" height="100" fill="%23444" rx="10"/><rect x="210" y="75" width="60" height="70" fill="%23222" rx="5"/><circle cx="240" cy="110" r="15" fill="%236b4423"/><rect x="300" y="90" width="60" height="60" fill="%23333" rx="8"/><text x="200" y="280" text-anchor="middle" font-family="Arial" font-size="16" fill="%232c1810" font-weight="bold">Office Coffee</text></svg>');
+            background-size: cover;
+            background-position: center;
         }
 
         .commercial-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23e8e4df"/><rect x="100" y="40" width="200" height="120" fill="%23333" rx="10"/><rect x="120" y="60" width="50" height="80" fill="%236b4423" rx="5"/><rect x="180" y="70" width="30" height="60" fill="%23ffffff" rx="15"/><rect x="220" y="65" width="60" height="70" fill="%234a6b7a" rx="8"/><circle cx="150" cy="30" r="10" fill="%236b4423"/><circle cx="200" cy="25" r="8" fill="%23333"/><circle cx="250" cy="30" r="12" fill="%235a7a4a"/><text x="200" y="180" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Commercial Solutions</text></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="%23f8f8f8"/><rect x="0" y="250" width="400" height="50" fill="%23ddd"/><rect x="100" y="50" width="200" height="180" fill="%23333" rx="15"/><rect x="120" y="70" width="160" height="140" fill="%23444" rx="10"/><rect x="140" y="90" width="50" height="100" fill="%236b4423" rx="8"/><rect x="210" y="100" width="60" height="80" fill="%235a7a4a" rx="10"/><circle cx="200" cy="40" r="20" fill="%23666"/><rect x="180" y="35" width="40" height="10" fill="%236b4423" rx="5"/><rect x="50" y="180" width="30" height="50" fill="%23999"/><rect x="320" y="170" width="30" height="60" fill="%23999"/><text x="200" y="285" text-anchor="middle" font-family="Arial" font-size="16" fill="%232c1810" font-weight="bold">Commercial</text></svg>');
+            background-size: cover;
+            background-position: center;
         }
 
         .filtered-water-img {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f8ff"/><rect x="150" y="30" width="100" height="140" fill="%23333" rx="15"/><rect x="160" y="50" width="80" height="30" fill="%234a6b7a" rx="5"/><rect x="170" y="90" width="60" height="60" fill="%235a7b8a" rx="30"/><path d="M200 120 Q190 130 200 140 Q210 130 200 120" fill="%23ffffff"/><path d="M200 125 Q195 132 200 138 Q205 132 200 125" fill="%234a6b7a"/><text x="200" y="185" text-anchor="middle" font-family="Arial" font-size="14" fill="%232c1810">Water Filtration</text></svg>');
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23e8e8e8;stop-opacity:1" /><stop offset="50%" style="stop-color:%23c0c0c0;stop-opacity:1" /><stop offset="100%" style="stop-color:%23a0a0a0;stop-opacity:1" /></linearGradient></defs><rect width="400" height="300" fill="%23f0f0f0"/><rect x="0" y="220" width="400" height="80" fill="%23333"/><ellipse cx="200" cy="150" rx="100" ry="120" fill="url(%23metal)"/><rect x="180" y="80" width="40" height="140" fill="%23888" rx="20"/><circle cx="200" cy="100" r="25" fill="%234a6b7a"/><rect x="190" y="90" width="20" height="20" fill="%235a7b8a" rx="10"/><path d="M200 130 Q185 140 200 150 Q215 140 200 130" fill="%23a0c8e8"/><ellipse cx="200" cy="200" rx="80" ry="20" fill="%23666"/><text x="200" y="285" text-anchor="middle" font-family="Arial" font-size="16" fill="%23fff" font-weight="bold">Filtered Water</text></svg>');
+            background-size: cover;
+            background-position: center;
         }
 
         .mega-card-title {
