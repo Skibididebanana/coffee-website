@@ -50,7 +50,7 @@ MAIN_TEMPLATE = '''
             letter-spacing: -0.5px;
             line-height: 1.2;
             position: relative;
-            z-index: 1004;
+            z-index: 9999;
         }
 
         /* RIGHT SIDE - Navigation + Phone + Icons */
@@ -59,19 +59,19 @@ MAIN_TEMPLATE = '''
             align-items: center;
             gap: 40px;
             position: relative;
-            z-index: 1003;
+            z-index: 9998;
         }
 
         .nav {
             display: flex;
             gap: 30px;
             position: relative;
-            z-index: 1003;
+            z-index: 9998;
         }
 
         .nav-item {
             position: relative;
-            z-index: 1003;
+            z-index: 9998;
         }
 
         .nav a {
@@ -83,7 +83,7 @@ MAIN_TEMPLATE = '''
             text-transform: uppercase;
             letter-spacing: 0.5px;
             position: relative;
-            z-index: 1003;
+            z-index: 9998;
         }
 
         .nav a:hover {
@@ -95,7 +95,7 @@ MAIN_TEMPLATE = '''
             align-items: center;
             color: #4a4a4a;
             font-weight: 500;
-            z-index: 1003;
+            z-index: 9998;
             position: relative;
         }
 
@@ -103,7 +103,7 @@ MAIN_TEMPLATE = '''
             display: flex;
             align-items: center;
             gap: 15px;
-            z-index: 1003;
+            z-index: 9998;
             position: relative;
         }
 
@@ -457,7 +457,7 @@ MAIN_TEMPLATE = '''
             border-bottom: none;
         }
 
-        /* Coffee Mega Menu */
+        /* Coffee Mega Menu - WHITE BACKGROUND */
         .coffee-menu {
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
